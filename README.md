@@ -1,5 +1,7 @@
 # RandomMessenger
 
+RandomMessenger is an Android mobile application to connect to another user randomly and start a conversation
+
 <strong>Project Created By:</strong>
 <ul>
 <li> Kenneth Siu </li>
@@ -10,8 +12,6 @@
 <li> James Kwon </li>
 <li> Mohammed Omar </li>
 </ul>
-
-RandomMessenger is an Android mobile application to connect to another user randomly and start a conversation
 
 <h2> Features </h2>
 <h4> Messaging </h4>

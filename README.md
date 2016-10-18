@@ -11,7 +11,6 @@
 <li> Mohammed Omar </li>
 </ul>
 
-<h1> rshell </h1>
 RandomMessenger is an Android mobile application to connect to another user randomly and start a conversation
 
 <h2> Features </h2>

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "134092308322",
+    "firebase_url": "https://really-last-time.firebaseio.com",
+    "project_id": "really-last-time",
+    "storage_bucket": "really-last-time.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:134092308322:android:38575312aaf49da7",
+        "android_client_info": {
+          "package_name": "com.omagle.omagle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "134092308322-1erpgc543bnn23uhabpl485i5fglc19m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDchPwA0PuE0Y7kVZW5pH2Tab5N7eOG75I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

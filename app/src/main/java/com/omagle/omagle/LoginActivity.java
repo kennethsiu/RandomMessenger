@@ -346,6 +346,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
         }
+
+        /* NEW, move to LoginActivity.java
+        public void gotoStartChat(View view)
+        {
+            Intent intent = new Intent(this, activity_start_chat.class);
+            startActivity(intent);
+        }
+        */
     }
 }
 

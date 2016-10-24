@@ -39,8 +39,9 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
+
     /**
-     * Id to identity READ_CONTACTS permission request.
+     * Id to identity READ_CONTACTS permission request.i
      */
     private static final int REQUEST_READ_CONTACTS = 0;
 
@@ -345,6 +346,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
         }
+
+        /* NEW, move to LoginActivity.java
+        public void gotoStartChat(View view)
+        {
+            Intent intent = new Intent(this, activity_start_chat.class);
+            startActivity(intent);
+        }
+        */
     }
 }
 

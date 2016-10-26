@@ -1,5 +1,7 @@
 package com.omagle.omagle;
 
+//testing to see if push works
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -33,6 +35,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
+
+
 
 /**
  * A login screen that offers login via email/password.

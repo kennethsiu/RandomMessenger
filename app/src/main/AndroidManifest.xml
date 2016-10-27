@@ -22,9 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" >
-        </activity>
-        <activity android:name=".start_chat" >
+        <!--<activity android:name=".MainActivity" >-->
+        <!--</activity>-->
+        <activity android:name=".StartChat" >
         </activity>
 
         <service

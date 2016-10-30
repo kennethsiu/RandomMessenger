@@ -27,10 +27,11 @@ This application is designed on Android Studio. [add language(s) used]
 <h2> Implementation </h2>
 The project consisted of several steps.
 <ul>
-  <li> First, we ... </li>
-  <li> Second, we ... </li>
-  <li> Third, we ... </li>
+  <li> First, we set up the login activity for the application. Upon inputting a valid username and password, the user will be sent to the Start Chat activity. </li>
+  <li> Second, we set up the start chat activity for the application. This page only holds the "Start Chat" button which allows the user to actually start a conversation. </li>
+  <li> Third, we set up the messaging activity for the application. For the actual messaging, we are using Firebase's API. </li>
 </ul>
 
 <h2> Possible Bugs & Future Updates </h2>
-The Report System has not been added yet.
+The Report System and Database functionality has not been added yet.
+We may also add a feature to allow the user to keep open old messages.

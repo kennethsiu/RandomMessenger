@@ -25,6 +25,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.android.support:design:23.1.0'
 
-    // Add to the bottom of the file
-    apply plugin: 'com.google.gms.google-services'
+    compile 'com.google.firebase:firebase-messaging:9.6.1'
+
 }
+// Add to the bottom of the file
+apply plugin: 'com.google.gms.google-services'

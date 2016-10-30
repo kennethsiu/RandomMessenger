@@ -18,15 +18,15 @@
         android:id="@+id/textView"
         android:textAppearance="@android:style/TextAppearance.Material.Large"
         android:textSize="24sp"
-        android:layout_above="@+id/startChatBtn"
+        android:layout_above="@+id/startChatButton"
         android:layout_centerHorizontal="true"
         android:textAlignment="center" />
 
     <Button
-        android:text="Button"
+        android:text="Start Chat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/startChatBtn"
+        android:id="@+id/startChatButton"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 

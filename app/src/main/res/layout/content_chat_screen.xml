@@ -35,20 +35,23 @@
         <!--android:text="Yup"-->
         <!--android:textColor="#000" />-->
 
-    <EditText android:id="@+id/edit_message"
-        android:layout_weight="1"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
+    <LinearLayout
+        android:id="@+id/bottom_layout_interface"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/sendButton"
-        android:hint="@string/message_hint" />
-    <Button android:id="@+id/sendButton"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:text="@string/send_button" />
+        android:orientation="horizontal">
+        <EditText android:id="@+id/edit_message"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/message_hint" />
+        <Button android:id="@+id/sendButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/send_button" />
+    </LinearLayout>
         <!--<LinearLayout-->
             <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
             <!--xmlns:tools="http://schemas.android.com/tools"-->

@@ -3,7 +3,7 @@ package com.omagle.omagle;
 import android.app.Application;
 import android.test.ApplicationTestCase;
 
-<<<<<<< HEAD
+
 /** This is a comment
 =======
 /**Adding comment

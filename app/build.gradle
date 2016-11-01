@@ -27,6 +27,13 @@ dependencies {
 
     compile 'com.google.firebase:firebase-messaging:9.6.1'
 
+
+    //google play services to stop getting null token
+    compile 'com.google.android.gms:play-services:9.6.1'
+
+
 }
+//added to have google play working
+apply plugin: 'com.android.application'
 // Add to the bottom of the file
 apply plugin: 'com.google.gms.google-services'

@@ -11,5 +11,6 @@
             android:background="@drawable/textbox"
             android:maxEms="18"
             android:layout_gravity="right"
-            android:textColor="@color/sender_text_color" />
+            android:textColor="@color/sender_text_color"
+            android:textSize="25sp"/>
 </RelativeLayout>

@@ -26,12 +26,19 @@
         <!-- </activity> -->
         <activity android:name=".StartChat"></activity>
 
+        <activity android:name=".MainActivity" >
+        </activity>
+        <activity android:name=".start_chat" >
+        </activity>
+        <!--//A service that extends FireBaseMessaging Service-->
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".MyFirebaseInstanceIDService">
+        <!--//A service that extends FirebaseInstanceIDService-->
+        <service
+            android:name=".MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>

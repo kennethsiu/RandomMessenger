@@ -3,4 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="recipient_text_bubble">#FFF9C4</color>
+    <color name="sender_text_bubble">#0288D1</color>
+    <color name="chat_background">#F5F5F5</color>
+    <color name="sender_text_color">#FFFFFF</color>
+    <color name="recipient_text_color">#000000</color>
 </resources>

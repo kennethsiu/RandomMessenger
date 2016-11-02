@@ -5,7 +5,7 @@
         <shape>
             <stroke
                 android:width="2dp"
-                android:color="#CECECE" />
+                android:color="@color/chat_background" />
 
             <solid android:color="@color/sender_text_bubble" />
 

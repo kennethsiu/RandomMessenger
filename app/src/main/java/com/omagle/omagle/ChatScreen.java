@@ -23,6 +23,8 @@ public class ChatScreen extends AppCompatActivity {
     private EditText messageText;
     private Button sendButton;
     private static ArrayList<String> textReceived;
+    private FirebaseTranslater fbTranslater;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +41,7 @@ public class ChatScreen extends AppCompatActivity {
 //            }
 //        });
 
+        fbTranslater = new FirebaseTranslater();
         sendButton = (Button) findViewById(R.id.sendButton);
         final ListView messageList = (ListView) findViewById(R.id.message_list);
 
@@ -83,8 +86,9 @@ public class ChatScreen extends AppCompatActivity {
         return true;
     }
     private boolean sendMessage(){
-        arrAdapt.add(new Message(messageText.getText().toString().trim(), true));
-        //TODO Send to app server
+        Message message = new Message(messageText.getText().toString().trim(), true);
+        arrAdapt.add(message);
+        fbTranslater.send(message);
         messageText.setText("");
         return true;
     }

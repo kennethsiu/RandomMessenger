@@ -46,7 +46,8 @@ public class ChatScreenArrayAdapter extends ArrayAdapter<Message> {
         row = inflater.inflate(R.layout.message_bubble, parent, false);
 
         TextView messageText = (TextView) row.findViewById(R.id.message_text);
-        messageText.setText(message.getText());
+        // commented out by Anu because I changed message class
+        //messageText.setText(message.getText());
         return row;
 
     }

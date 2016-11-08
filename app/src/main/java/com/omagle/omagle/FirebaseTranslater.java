@@ -10,7 +10,8 @@ import com.google.firebase.messaging.RemoteMessage;
  */
 
 public class FirebaseTranslater {
-
+    //not sure that this is going but commented out by Anu. Was giving me errors
+    /*
     protected boolean send(Message message){
         FirebaseMessaging fm = FirebaseMessaging.getInstance();
         String msgID = FirebaseInstanceId.getInstance() + Integer.toString(Message.messageID);
@@ -19,5 +20,5 @@ public class FirebaseTranslater {
                 .addData(msgID, message.getText())
                 .build());
         return true;
-    }
+    }*/
 }

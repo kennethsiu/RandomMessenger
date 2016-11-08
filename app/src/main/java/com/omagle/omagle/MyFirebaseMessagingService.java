@@ -1,5 +1,7 @@
 package com.omagle.omagle;
 import java.util.Map;
+import java.util.logging.Handler;
+
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -22,6 +24,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param remoteMessage Object representing the message received from Firebase Cloud Messaging.
      */
     // [START receive_message]
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // [START_EXCLUDE]
@@ -40,13 +43,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
         Log.d(TAG, "collapse key"+remoteMessage.getCollapseKey());
         Log.d(TAG, "message ID"+remoteMessage.getMessageId());
-        Map<String, String> data = remoteMessage.getData();
-        ChatScreen.getMessage(data);
+        final Map<String, String> data = remoteMessage.getData();
+        //RemoteMessage.Notification notif = remoteMessage.getNotification();
+        //System.out.println(data);
+        //System.out.println(notif);
 
+        //ChatScreen.getMessage(data);
+        //ChatScreen.getMessage(notif);
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
         }
+
+        if (remoteMessage.getNotification() != null) {
+            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+        }
+
 
     }
     // [END receive_message]

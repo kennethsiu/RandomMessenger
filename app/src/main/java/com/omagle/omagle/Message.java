@@ -1,90 +1,36 @@
 package com.omagle.omagle;
 
+import com.google.firebase.messaging.RemoteMessage;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 /**
  * Created by Michael on 10/30/16.
  */
 
 public class Message {
-    private List<String> texts;
-    private MyUser sender;
-    private MyUser receiver;
-    private boolean displayed;
+    private String text;
+    private Date date;
+    private String uID;
+    private boolean sentMessage;
+    protected static int messageID;
 
-    public Message()
-    {
-        texts = null;
-        sender = null;
-        receiver = null;
-        displayed = false;
-    }
-
-    public Message(List<String> text){
-        this.texts = text;
-        sender = null;
-        receiver = null;
-        displayed = false;
+    public Message(String text, Date date, String uID, boolean sentMessage){
+        this.text = text;
+        this.date = date;
+        this.uID = uID;
+        this.sentMessage = sentMessage;
+        messageID++;
     }
 
-    public Message(String t){
-        texts = new ArrayList<>();
-        texts.add(t);
-        sender = null;
-        receiver = null;
-        displayed = false;
-    }
-    public List<String> getText()
-    {
-        return texts;
+    public Message (String text, boolean sentMessage){
+        this.sentMessage = sentMessage;
+        this.text = text;
+        messageID++;
     }
 
-    public MyUser getSender()
-    {
-        return sender;
-    }
-
-    public MyUser getReceiver()
-    {
-        return receiver;
-    }
-
-    public boolean getDisplayed()
-    {
-        return displayed;
-    }
-
-    public void setText(List<String> t)
-    {
-        texts = t;
-    }
-
-    public void addText(String newText)
-    {
-        if(!displayed)
-            texts.add(newText);
-        else
-        {
-            texts = new ArrayList<>();
-            texts.add(newText);
-            displayed = false;
-        }
-    }
-    public void setSender(MyUser s)
-    {
-        sender = s;
-    }
-
-    public void setReceiver(MyUser r)
-    {
-        receiver = r;
-    }
-
-    public void setDisplayed(boolean d)
-    {
-        displayed = d;
+    public String getText(){
+        return this.text;
     }
 
 }

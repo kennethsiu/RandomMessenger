@@ -1,5 +1,5 @@
 package com.omagle.omagle;
-
+import java.util.Map;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -36,7 +36,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
+        Log.d(TAG, "Trying to recieve a message from Anu");
         Log.d(TAG, "From: " + remoteMessage.getFrom());
+        Log.d(TAG, "collapse key"+remoteMessage.getCollapseKey());
+        Log.d(TAG, "message ID"+remoteMessage.getMessageId());
+        Map<String, String> data = remoteMessage.getData();
+
+        //ChatScreen.getMessage(data);
 
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {

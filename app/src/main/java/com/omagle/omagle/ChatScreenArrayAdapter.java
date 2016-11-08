@@ -43,10 +43,11 @@ public class ChatScreenArrayAdapter extends ArrayAdapter<Message> {
         Message message = getItem(pos);
         View row = convertView;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        row = inflater.inflate(R.layout.message_bubble, parent, false);
+        row = inflater.inflate(R.layout.message_bubble_right, parent, false);
 
-        TextView messageText = (TextView) row.findViewById(R.id.message_text);
-        messageText.setText(message.getText());
+        TextView messageText = (TextView) row.findViewById(R.id.message_text_right);
+        // commented out by Anu because I changed message class
+        //messageText.setText(message.getText());
         return row;
 
     }

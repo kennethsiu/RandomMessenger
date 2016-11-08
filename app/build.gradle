@@ -27,6 +27,14 @@ dependencies {
 
     compile 'com.google.firebase:firebase-messaging:9.6.1'
 
+    compile 'com.google.android.gms:play-services:9.6.1'
+
+    //database to add info
+    compile 'com.google.firebase:firebase-database:9.6.1'
+
 }
-// Add to the bottom of the file
+// Add to the bottom of the file Michael is a poopy head
 apply plugin: 'com.google.gms.google-services'
+
+//added to have google play working
+apply plugin: 'com.android.application'

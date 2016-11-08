@@ -41,7 +41,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "collapse key"+remoteMessage.getCollapseKey());
         Log.d(TAG, "message ID"+remoteMessage.getMessageId());
         Map<String, String> data = remoteMessage.getData();
-        ChatScreen.getMessage(data);
+
+        //ChatScreen.getMessage(data);
 
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {

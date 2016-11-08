@@ -10,30 +10,30 @@ import java.util.List;
 
 public class Message {
     private List<String> texts;
-    private MyUser sender;
-    private MyUser receiver;
+    private String sender;
+    private String receiver;
     private boolean displayed;
 
     public Message()
     {
         texts = null;
-        sender = null;
-        receiver = null;
+        sender = "";
+        receiver = "";
         displayed = false;
     }
 
     public Message(List<String> text){
         this.texts = text;
-        sender = null;
-        receiver = null;
+        sender = "";
+        receiver = "";
         displayed = false;
     }
 
     public Message(String t){
         texts = new ArrayList<>();
         texts.add(t);
-        sender = null;
-        receiver = null;
+        sender = "";
+        receiver = "";
         displayed = false;
     }
     public List<String> getText()
@@ -41,12 +41,12 @@ public class Message {
         return texts;
     }
 
-    public MyUser getSender()
+    public String getSender()
     {
         return sender;
     }
 
-    public MyUser getReceiver()
+    public String getReceiver()
     {
         return receiver;
     }
@@ -72,12 +72,12 @@ public class Message {
             displayed = false;
         }
     }
-    public void setSender(MyUser s)
+    public void setSender(String s)
     {
         sender = s;
     }
 
-    public void setReceiver(MyUser r)
+    public void setReceiver(String r)
     {
         receiver = r;
     }

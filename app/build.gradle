@@ -25,11 +25,14 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.android.support:design:23.1.0'
 
-    compile 'com.google.firebase:firebase-messaging:9.6.1'
+    compile 'com.google.firebase:firebase-messaging:9.8.0'
 
 
     //google play services to stop getting null token
-    compile 'com.google.android.gms:play-services:9.6.1'
+    compile 'com.google.android.gms:play-services:9.8.0'
+
+    //database to add info
+    compile 'com.google.firebase:firebase-database:9.8.0'
 
 
 }

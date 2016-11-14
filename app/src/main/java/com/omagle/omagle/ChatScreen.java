@@ -6,7 +6,7 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.fitness.data.Value;
+import com.google.android.gms.common.server.converter.StringToIntConverter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
@@ -34,9 +34,9 @@ public class ChatScreen extends AppCompatActivity {
     private static ChatScreenArrayAdapter arrAdapt;
     private EditText messageText;
     private Button sendButton;
+
     int x=0;
     private static ArrayList<String> textReceived = new ArrayList<String>();
-
 
 
     //database related things
@@ -60,7 +60,7 @@ public class ChatScreen extends AppCompatActivity {
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         newUser = new MyUser(refreshedToken);
         myDatabase.child("users").child(newUser.getToken()).setValue(newUser);
-
+        //myDatabase.child(newUser.getToken()).setValue(newUser);
         //match new user with a partner
         ValueEventListener userListener = new ValueEventListener() {
             @Override
@@ -80,6 +80,9 @@ public class ChatScreen extends AppCompatActivity {
                         potentialPartner.setMatched(true);
                         myDatabase.child("users").child(newUser.getToken()).setValue(newUser);
                         myDatabase.child("users").child(potentialPartner.getToken()).setValue(potentialPartner);
+                        //myDatabase.child("message").child(potentialPartner.getToken()).setValue(null);
+                        //myDatabase.child(newUser.getToken()).setValue(newUser);
+                        //myDatabase.child(potentialPartner.getToken()).setValue(potentialPartner);
                         success = true;
                     }
                 }
@@ -100,6 +103,15 @@ public class ChatScreen extends AppCompatActivity {
                 {
                     //print "sorry, noone is available" message
                 }
+                while(x<2)
+                {
+                    if(x==0)
+                        storeMessage("first message");
+                    else
+                        storeMessage("second message");
+                    x++;
+                }
+
             }
 
             @Override
@@ -109,7 +121,6 @@ public class ChatScreen extends AppCompatActivity {
             }
         };
         myDatabase.addListenerForSingleValueEvent(userListener);
-
         setContentView(R.layout.activity_chat_screen);
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
@@ -153,29 +164,28 @@ public class ChatScreen extends AppCompatActivity {
             }
         });
 
-        messageList.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-        messageList.setAdapter(arrAdapt);
-
-
         ValueEventListener messageListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 DataSnapshot users = dataSnapshot.child("message");
+                Log.d(TAG, "trying to receive message");
                 for (DataSnapshot snap : users.getChildren()) {
                     //look through each message and see if it was sent for this user
+                    Log.d(TAG, "inside loop");
                     Message m = snap.getValue(Message.class);
                     String receiver = m.getReceiver();
-                    m.setSentMessage(false);
-                    arrAdapt.add(m);
-                    //message for user found
-                    if (receiver.equals(newUser.getToken())) {
-                        //see if displayed on screen yet
-                        if (!m.getDisplayed()) {
-                            List<String> messagesContent = m.getText();
-                            m.setDisplayed(true);
+                    Log.d(TAG, receiver);
+                    if(receiver.equals(newUser.getToken()))
+                    {
+                        List<String> messages = m.getText();
+                        if(messages != null) {
+                            Log.d(TAG, messages.get(0));
+                            m.setSentMessage(false);
+                            arrAdapt.add(m);
                         }
                     }
                 }
+                Log.d(TAG,"outside for loop");
             }
 
             @Override
@@ -184,10 +194,12 @@ public class ChatScreen extends AppCompatActivity {
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
             }
         };
-        DatabaseReference messageDatabase = FirebaseDatabase.getInstance().getReference("message");
+        DatabaseReference messageDatabase = FirebaseDatabase.getInstance().getReference();
         messageDatabase.addValueEventListener(messageListener);
+        //messageDatabase.addListenerForSingleValueEvent(messageListener);
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
+
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
@@ -197,36 +209,44 @@ public class ChatScreen extends AppCompatActivity {
         ValueEventListener messageListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d(TAG, "store data method");
-                /*Log.d(TAG,texts);
+                /*
+                    DataSnapshot users = dataSnapshot.child("message");
+                    //for (DataSnapshot snap : users.getChildren()) {
+                        //look through each message and see if it was sent from this user
+                     if(users.hasChild(newUser.getPartner())) {
+                         DataSnapshot snap = users.child(newUser.getPartner());
+                         Message m = snap.getValue(Message.class);
+                         String sender = m.getSender();
+                         //user send message before. maybe double texting??
+                         if (sender.equals(newUser.getToken())) {
+                             List<String> textContent = m.getText();
+                             String latestStr = textContent.get(textContent.size() - 1);
+                             if (!latestStr.equals(texts)) {
+                                 m.addText(texts);
+                                 myDatabase.child("message").child(m.getReceiver()).setValue(m);
+                             }
 
-                //DataSnapshot users = dataSnapshot.child("message");
-                //DataSnapshot snap = users.child(newUser.getPartner());
-                //essage m = snap.getValue()
-                //Message m = users.child(newUser.getPartner()).getValue(Message.class);
-                Message m = dataSnapshot.child("message").child(newUser.getPartner()).getValue(Message.class);
-                if(m != null) {
-                    Log.d(TAG, "Sender and receivers are... ");
-                    Log.d(TAG, m.getSender());
-                    Log.d(TAG, m.getReceiver());
-                    String sender = m.getSender();
-                    //user send message before. maybe double texting??
-                    if (sender.equals(newUser.getToken())) {
-                        Log.d(TAG, "came from if part");
-                        m.addText(texts);
-                        myDatabase.child("message").child(m.getReceiver()).setValue(m);
-                    }
-                }*/
-                //message field doesn't exist. first ever message
+                         }
+                     }
 
-                //else{
-                    Log.d(TAG, "else statement part");
-                    Message newEntry = new Message(texts);
-                    newEntry.setReceiver(newUser.getPartner());
-                    newEntry.setSender(newUser.getToken());
-                    myDatabase.child("message").child(newUser.getPartner()).setValue(newEntry);
-                //}
+                    //}
+                    //user hasn't send message before. new entry
+                     else{
+                     */
+                        Message newEntry = new Message(texts);
+                        newEntry.setReceiver(newUser.getPartner());
+                        newEntry.setSender(newUser.getToken());
+                        myDatabase.child("message").child(newUser.getPartner()).setValue(newEntry);
+                        myDatabase.child("message").child(newUser.getToken()).setValue(newEntry);
+                        String label1 = "message" + newUser.getPartner();
+                        String label2 = "message" + newUser.getToken();
+                        //myDatabase.child(label1).setValue(newEntry);
+                        //myDatabase.child(label2).setValue(newEntry);
+                    //}
+
+
             }
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -243,19 +263,22 @@ public class ChatScreen extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 DataSnapshot users = dataSnapshot.child("message");
+                Log.d(TAG, "trying to receive message");
+
                 for (DataSnapshot snap : users.getChildren()) {
                     //look through each message and see if it was sent for this user
+                    Log.d(TAG, "inside loop");
                     Message m = snap.getValue(Message.class);
                     String receiver = m.getReceiver();
-                    //message for user found
-                    if (receiver.equals(newUser.getToken())) {
-                        //see if displayed on screen yet
-                        if (!m.getDisplayed()) {
-                            List<String> messagesContent = m.getText();
-                            m.setDisplayed(true);
-                        }
+                    Log.d(TAG, receiver);
+                    if(receiver.equals(newUser.getPartner()))
+                    {
+                        List<String> messages = m.getText();
+                        if(messages != null)
+                            Log.d(TAG, messages.get(0));
                     }
                 }
+                Log.d(TAG,"outside for loop");
             }
 
             @Override
@@ -264,8 +287,9 @@ public class ChatScreen extends AppCompatActivity {
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
             }
         };
-        DatabaseReference messageDatabase = FirebaseDatabase.getInstance().getReference("message");
-        messageDatabase.addValueEventListener(messageListener);
+        DatabaseReference messageDatabase = FirebaseDatabase.getInstance().getReference();
+        //messageDatabase.addValueEventListener(messageListener);
+        messageDatabase.addListenerForSingleValueEvent(messageListener);
     }
 
     //commented out by Anu because I wrote new ones

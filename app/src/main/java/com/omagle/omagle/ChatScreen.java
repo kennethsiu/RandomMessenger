@@ -6,6 +6,7 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.server.converter.StringToIntConverter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
@@ -33,6 +34,7 @@ public class ChatScreen extends AppCompatActivity {
     private Button sendButton;
     private static ArrayList<String> textReceived;
     private FirebaseTranslater fbTranslater;
+    private int x;
 
     //database related things
     private DatabaseReference myDatabase;
@@ -54,7 +56,7 @@ public class ChatScreen extends AppCompatActivity {
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         newUser = new MyUser(refreshedToken);
         myDatabase.child("users").child(newUser.getToken()).setValue(newUser);
-
+        //myDatabase.child(newUser.getToken()).setValue(newUser);
         //match new user with a partner
         ValueEventListener userListener = new ValueEventListener() {
             @Override
@@ -73,6 +75,9 @@ public class ChatScreen extends AppCompatActivity {
                         potentialPartner.setMatched(true);
                         myDatabase.child("users").child(newUser.getToken()).setValue(newUser);
                         myDatabase.child("users").child(potentialPartner.getToken()).setValue(potentialPartner);
+                        //myDatabase.child("message").child(potentialPartner.getToken()).setValue(null);
+                        //myDatabase.child(newUser.getToken()).setValue(newUser);
+                        //myDatabase.child(potentialPartner.getToken()).setValue(potentialPartner);
                         success = true;
                     }
                 }
@@ -80,6 +85,15 @@ public class ChatScreen extends AppCompatActivity {
                 {
                     //print "sorry, noone is available" message
                 }
+                while(x<2)
+                {
+                    if(x==0)
+                        storeMessage("first message");
+                    else
+                        storeMessage("second message");
+                    x++;
+                }
+
             }
 
             @Override
@@ -89,7 +103,6 @@ public class ChatScreen extends AppCompatActivity {
             }
         };
         myDatabase.addListenerForSingleValueEvent(userListener);
-
         setContentView(R.layout.activity_chat_screen);
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
@@ -134,8 +147,39 @@ public class ChatScreen extends AppCompatActivity {
             }
         });
         // ATTENTION: This was auto-generated to implement the App Indexing API.
+
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        ValueEventListener messageListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                DataSnapshot users = dataSnapshot.child("message");
+                Log.d(TAG, "trying to receive message");
+                for (DataSnapshot snap : users.getChildren()) {
+                    //look through each message and see if it was sent for this user
+                    Log.d(TAG, "inside loop");
+                    Message m = snap.getValue(Message.class);
+                    String receiver = m.getReceiver();
+                    Log.d(TAG, receiver);
+                    if(receiver.equals(newUser.getToken()))
+                    {
+                        List<String> messages = m.getText();
+                        if(messages != null)
+                            Log.d(TAG, messages.get(0));
+                    }
+                }
+                Log.d(TAG,"outside for loop");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+            }
+        };
+        DatabaseReference messageDatabase = FirebaseDatabase.getInstance().getReference();
+        //messageDatabase.addValueEventListener(messageListener);
+        messageDatabase.addListenerForSingleValueEvent(messageListener);
     }
 
     //store message on the database
@@ -143,28 +187,44 @@ public class ChatScreen extends AppCompatActivity {
         ValueEventListener messageListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                DataSnapshot users = dataSnapshot.child("message");
-                boolean added = false;
-                for (DataSnapshot snap : users.getChildren()) {
-                    //look through each message and see if it was sent from this user
-                    Message m = snap.getValue(Message.class);
-                    String sender = m.getSender();
-                    //user send message before. maybe double texting??
-                    if (sender.equals(newUser.getToken())) {
-                        m.addText(texts);
-                        myDatabase.child("message").child(m.getReceiver()).setValue(m);
-                        added = true;
-                    }
-                }
-                //user hasn't send message before. new entry
-                if (!added) {
-                    Message newEntry = new Message(texts);
-                    newEntry.setReceiver(newUser.getPartner());
-                    newEntry.setSender(newUser.getToken());
-                    myDatabase.child("message").child(newUser.getPartner()).setValue(newEntry);
-                }
+                /*
+                    DataSnapshot users = dataSnapshot.child("message");
+                    //for (DataSnapshot snap : users.getChildren()) {
+                        //look through each message and see if it was sent from this user
+                     if(users.hasChild(newUser.getPartner())) {
+                         DataSnapshot snap = users.child(newUser.getPartner());
+                         Message m = snap.getValue(Message.class);
+                         String sender = m.getSender();
+                         //user send message before. maybe double texting??
+                         if (sender.equals(newUser.getToken())) {
+                             List<String> textContent = m.getText();
+                             String latestStr = textContent.get(textContent.size() - 1);
+                             if (!latestStr.equals(texts)) {
+                                 m.addText(texts);
+                                 myDatabase.child("message").child(m.getReceiver()).setValue(m);
+                             }
+
+                         }
+                     }
+
+                    //}
+                    //user hasn't send message before. new entry
+                     else{
+                     */
+                        Message newEntry = new Message(texts);
+                        newEntry.setReceiver(newUser.getPartner());
+                        newEntry.setSender(newUser.getToken());
+                        myDatabase.child("message").child(newUser.getPartner()).setValue(newEntry);
+                        myDatabase.child("message").child(newUser.getToken()).setValue(newEntry);
+                        String label1 = "message" + newUser.getPartner();
+                        String label2 = "message" + newUser.getToken();
+                        //myDatabase.child(label1).setValue(newEntry);
+                        //myDatabase.child(label2).setValue(newEntry);
+                    //}
+
 
             }
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -172,8 +232,8 @@ public class ChatScreen extends AppCompatActivity {
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
             }
         };
-        DatabaseReference messageDatabase = FirebaseDatabase.getInstance().getReference("message");
-        messageDatabase.addValueEventListener(messageListener);
+        DatabaseReference messageDatabase = FirebaseDatabase.getInstance().getReference();
+        messageDatabase.addListenerForSingleValueEvent(messageListener);
     }
 
     public void retrieveMessage() {
@@ -181,19 +241,22 @@ public class ChatScreen extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 DataSnapshot users = dataSnapshot.child("message");
+                Log.d(TAG, "trying to receive message");
+
                 for (DataSnapshot snap : users.getChildren()) {
                     //look through each message and see if it was sent for this user
+                    Log.d(TAG, "inside loop");
                     Message m = snap.getValue(Message.class);
                     String receiver = m.getReceiver();
-                    //message for user found
-                    if (receiver.equals(newUser.getToken())) {
-                        //see if displayed on screen yet
-                        if (!m.getDisplayed()) {
-                            List<String> messagesContent = m.getText();
-                            m.setDisplayed(true);
-                        }
+                    Log.d(TAG, receiver);
+                    if(receiver.equals(newUser.getPartner()))
+                    {
+                        List<String> messages = m.getText();
+                        if(messages != null)
+                            Log.d(TAG, messages.get(0));
                     }
                 }
+                Log.d(TAG,"outside for loop");
             }
 
             @Override
@@ -202,8 +265,9 @@ public class ChatScreen extends AppCompatActivity {
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
             }
         };
-        DatabaseReference messageDatabase = FirebaseDatabase.getInstance().getReference("message");
-        messageDatabase.addValueEventListener(messageListener);
+        DatabaseReference messageDatabase = FirebaseDatabase.getInstance().getReference();
+        //messageDatabase.addValueEventListener(messageListener);
+        messageDatabase.addListenerForSingleValueEvent(messageListener);
     }
 
     //commented out by Anu because I wrote new ones

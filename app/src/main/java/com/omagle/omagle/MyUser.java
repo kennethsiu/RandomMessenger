@@ -20,7 +20,7 @@ public class MyUser {
     {
         token = t;
         matched = false;
-        partner = "TESTING";
+        partner = "MT";
     }
 
     public String getToken()

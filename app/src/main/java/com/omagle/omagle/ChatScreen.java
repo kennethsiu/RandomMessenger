@@ -86,31 +86,31 @@ public class ChatScreen extends AppCompatActivity {
                         success = true;
                     }
                 }
-                while(x<2)
-                {
-                    Log.d(TAG, "Trying to see how many times it prints.");
-                    if(x==0) {
-                        storeMessage("testing to send this message");
-                        Log.d(TAG, "FIRST STORE MESSAGE");
-                    }
-                    else if(x==1) {
-                        storeMessage("sending second message");
-                        Log.d(TAG, "SECOND STORE MESSAGE.");
-                    }
-                    x++;
-                }
-                if(!success)
-                {
-                    //print "sorry, noone is available" message
-                }
-                while(x<2)
-                {
-                    if(x==0)
-                        storeMessage("first message");
-                    else
-                        storeMessage("second message");
-                    x++;
-                }
+//                while(x<2)
+//                {
+//                    Log.d(TAG, "Trying to see how many times it prints.");
+//                    if(x==0) {
+//                        storeMessage("testing to send this message");
+//                        Log.d(TAG, "FIRST STORE MESSAGE");
+//                    }
+//                    else if(x==1) {
+//                        storeMessage("sending second message");
+//                        Log.d(TAG, "SECOND STORE MESSAGE.");
+//                    }
+//                    x++;
+//                }
+//                if(!success)
+//                {
+//                    //print "sorry, noone is available" message
+//                }
+//                while(x<2)
+//                {
+//                    if(x==0)
+//                        storeMessage("first message");
+//                    else
+//                        storeMessage("second message");
+//                    x++;
+//                }
 
             }
 
@@ -178,10 +178,13 @@ public class ChatScreen extends AppCompatActivity {
                     if(receiver.equals(newUser.getToken()))
                     {
                         List<String> messages = m.getText();
+                        Log.d(TAG, "inside first if");
                         if(messages != null) {
                             Log.d(TAG, messages.get(0));
                             m.setSentMessage(false);
                             arrAdapt.add(m);
+                            Log.d(TAG,"inside second if");
+
                         }
                     }
                 }

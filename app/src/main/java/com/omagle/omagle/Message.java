@@ -14,6 +14,7 @@ public class Message {
     private String sender;
     private String receiver;
     private boolean displayed;
+    private boolean sentMessage;
 
     public Message()
     {
@@ -36,6 +37,7 @@ public class Message {
         sender = "";
         receiver = "";
         displayed = false;
+        sentMessage = true;
     }
     public List<String> getText()
     {
@@ -91,4 +93,7 @@ public class Message {
         displayed = d;
     }
 
+    public void setSentMessage(boolean s) { sentMessage = s; }
+
+    public boolean isSentMessage() { return sentMessage; }
 }

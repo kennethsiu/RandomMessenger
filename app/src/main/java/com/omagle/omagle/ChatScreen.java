@@ -80,10 +80,6 @@ public class ChatScreen extends AppCompatActivity {
                         potentialPartner.setMatched(true);
                         myDatabase.child("users").child(newUser.getToken()).setValue(newUser);
                         myDatabase.child("users").child(potentialPartner.getToken()).setValue(potentialPartner);
-                        Message m = new Message();
-                        m.setSender(newUser.getToken());
-                        m.setReceiver(newUser.getPartner());
-                        myDatabase.child("message").child(potentialPartner.getPartner()).setValue(m);
                         success = true;
                     }
                 }
@@ -133,7 +129,12 @@ public class ChatScreen extends AppCompatActivity {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     //commented out by Anu because I commented out sendMessage
-                    // /return sendMessage();
+                    Log.d(TAG, "else statement part");
+                    Message newEntry = new Message(messageText.getText().toString().trim());
+                    newEntry.setReceiver(newUser.getPartner());
+                    newEntry.setSender(newUser.getToken());
+                    myDatabase.child("message").child(newUser.getPartner()).setValue(newEntry);
+                    sendMessage();
 
                 }
                 return false;
@@ -143,7 +144,12 @@ public class ChatScreen extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //commented out by Anu because I commented out send Mesfage
-                //sendMessage();
+                Log.d(TAG, "else statement part");
+                Message newEntry = new Message(messageText.getText().toString().trim());
+                newEntry.setReceiver(newUser.getPartner());
+                newEntry.setSender(newUser.getToken());
+                myDatabase.child("message").child(newUser.getPartner()).setValue(newEntry);
+                sendMessage();
             }
         });
 
@@ -164,7 +170,8 @@ public class ChatScreen extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.d(TAG, "store data method");
-                Log.d(TAG,texts);
+                /*Log.d(TAG,texts);
+
                 //DataSnapshot users = dataSnapshot.child("message");
                 //DataSnapshot snap = users.child(newUser.getPartner());
                 //essage m = snap.getValue()
@@ -181,16 +188,16 @@ public class ChatScreen extends AppCompatActivity {
                         m.addText(texts);
                         myDatabase.child("message").child(m.getReceiver()).setValue(m);
                     }
-                }
+                }*/
                 //message field doesn't exist. first ever message
-                    /*
-                else{
+
+                //else{
                     Log.d(TAG, "else statement part");
                     Message newEntry = new Message(texts);
                     newEntry.setReceiver(newUser.getPartner());
                     newEntry.setSender(newUser.getToken());
                     myDatabase.child("message").child(newUser.getPartner()).setValue(newEntry);
-                }*/
+                //}
             }
 
             @Override
@@ -245,14 +252,15 @@ public class ChatScreen extends AppCompatActivity {
         }
         return true;
     }
+*/
 
     private boolean sendMessage() {
-        Message message = new Message(messageText.getText().toString().trim(), true);
+        Message message = new Message(messageText.getText().toString().trim());
+        message.setSentMessage(true);
         arrAdapt.add(message);
-        fbTranslater.send(message);
         messageText.setText("");
         return true;
-    }*/
+    }
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.

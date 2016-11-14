@@ -15,13 +15,13 @@
     </string>
     <string name="title_activity_chat_screen">ChatScreen</string>
     <string name="message_hint">
-        "Type a message\n."
+        "Type a message\n"
     </string>
     <string name="list_view">List View</string>
     <string name="sample_message">Goodbye World</string>
 
     <string name="send_button">
-        "Send."
+        "Send"
     </string>
     <string name="large_text">
         "Material is the metaphor.\n\n"

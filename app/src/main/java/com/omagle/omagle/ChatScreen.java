@@ -164,29 +164,28 @@ public class ChatScreen extends AppCompatActivity {
             }
         });
 
-        messageList.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-        messageList.setAdapter(arrAdapt);
-
-
         ValueEventListener messageListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 DataSnapshot users = dataSnapshot.child("message");
+                Log.d(TAG, "trying to receive message");
                 for (DataSnapshot snap : users.getChildren()) {
                     //look through each message and see if it was sent for this user
+                    Log.d(TAG, "inside loop");
                     Message m = snap.getValue(Message.class);
                     String receiver = m.getReceiver();
-                    m.setSentMessage(false);
-                    arrAdapt.add(m);
-                    //message for user found
-                    if (receiver.equals(newUser.getToken())) {
-                        //see if displayed on screen yet
-                        if (!m.getDisplayed()) {
-                            List<String> messagesContent = m.getText();
-                            m.setDisplayed(true);
+                    Log.d(TAG, receiver);
+                    if(receiver.equals(newUser.getToken()))
+                    {
+                        List<String> messages = m.getText();
+                        if(messages != null) {
+                            Log.d(TAG, messages.get(0));
+                            m.setSentMessage(false);
+                            arrAdapt.add(m);
                         }
                     }
                 }
+                Log.d(TAG,"outside for loop");
             }
 
             @Override
@@ -195,8 +194,9 @@ public class ChatScreen extends AppCompatActivity {
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
             }
         };
-        DatabaseReference messageDatabase = FirebaseDatabase.getInstance().getReference("message");
+        DatabaseReference messageDatabase = FirebaseDatabase.getInstance().getReference();
         messageDatabase.addValueEventListener(messageListener);
+        //messageDatabase.addListenerForSingleValueEvent(messageListener);
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
 

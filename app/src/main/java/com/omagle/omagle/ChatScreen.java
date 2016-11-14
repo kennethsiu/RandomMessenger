@@ -157,7 +157,35 @@ public class ChatScreen extends AppCompatActivity {
         messageList.setAdapter(arrAdapt);
 
 
+        ValueEventListener messageListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                DataSnapshot users = dataSnapshot.child("message");
+                for (DataSnapshot snap : users.getChildren()) {
+                    //look through each message and see if it was sent for this user
+                    Message m = snap.getValue(Message.class);
+                    String receiver = m.getReceiver();
+                    m.setSentMessage(false);
+                    arrAdapt.add(m);
+                    //message for user found
+                    if (receiver.equals(newUser.getToken())) {
+                        //see if displayed on screen yet
+                        if (!m.getDisplayed()) {
+                            List<String> messagesContent = m.getText();
+                            m.setDisplayed(true);
+                        }
+                    }
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+            }
+        };
+        DatabaseReference messageDatabase = FirebaseDatabase.getInstance().getReference("message");
+        messageDatabase.addValueEventListener(messageListener);
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.

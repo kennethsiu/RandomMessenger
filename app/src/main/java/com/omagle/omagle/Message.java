@@ -3,6 +3,7 @@ package com.omagle.omagle;
 
 import java.util.ArrayList;
 import java.util.List;
+import android.util.Log;
 
 /**
  * Created by Michael on 10/30/16.
@@ -16,7 +17,7 @@ public class Message {
 
     public Message()
     {
-        texts = null;
+        texts = new ArrayList<String>();
         sender = "";
         receiver = "";
         displayed = false;
@@ -63,10 +64,13 @@ public class Message {
 
     public void addText(String newText)
     {
-        if(!displayed)
+        if(!displayed) {
+            Log.d("MT says test if", newText);
             texts.add(newText);
+        }
         else
         {
+            Log.d("MT says else",newText);
             texts = new ArrayList<>();
             texts.add(newText);
             displayed = false;

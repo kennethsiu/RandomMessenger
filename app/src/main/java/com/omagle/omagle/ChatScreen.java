@@ -73,13 +73,17 @@ public class ChatScreen extends AppCompatActivity {
                     //found someone who isn't matched yet
                     if(!newUser.getMatched()&&!potentialPartner.getMatched()&&newUser.getToken()!=potentialPartner.getToken())
                     {
+                        Log.d(TAG, "It entered the message creation");
                         newUser.setPartner(potentialPartner.getToken());
                         newUser.setMatched(true);
                         potentialPartner.setPartner(newUser.getToken());
                         potentialPartner.setMatched(true);
                         myDatabase.child("users").child(newUser.getToken()).setValue(newUser);
                         myDatabase.child("users").child(potentialPartner.getToken()).setValue(potentialPartner);
-                        myDatabase.child("message").child(potentialPartner.getPartner()).setValue(null);
+                        Message m = new Message();
+                        m.setSender(newUser.getToken());
+                        m.setReceiver(newUser.getPartner());
+                        myDatabase.child("message").child(potentialPartner.getPartner()).setValue(m);
                         success = true;
                     }
                 }
@@ -159,14 +163,17 @@ public class ChatScreen extends AppCompatActivity {
         ValueEventListener messageListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d(TAG, "trying to see if this part runs");
-                DataSnapshot users = dataSnapshot.child("message");
-                DataSnapshot snap = users.child(newUser.getPartner());
+                Log.d(TAG, "store data method");
+                Log.d(TAG,texts);
+                //DataSnapshot users = dataSnapshot.child("message");
+                //DataSnapshot snap = users.child(newUser.getPartner());
                 //essage m = snap.getValue()
-                Message m = users.child(newUser.getPartner()).getValue(Message.class);
-                if(m != null)
-                {
-                    Log.d(TAG, "The value was not null");
+                //Message m = users.child(newUser.getPartner()).getValue(Message.class);
+                Message m = dataSnapshot.child("message").child(newUser.getPartner()).getValue(Message.class);
+                if(m != null) {
+                    Log.d(TAG, "Sender and receivers are... ");
+                    Log.d(TAG, m.getSender());
+                    Log.d(TAG, m.getReceiver());
                     String sender = m.getSender();
                     //user send message before. maybe double texting??
                     if (sender.equals(newUser.getToken())) {
@@ -176,13 +183,14 @@ public class ChatScreen extends AppCompatActivity {
                     }
                 }
                 //message field doesn't exist. first ever message
+                    /*
                 else{
                     Log.d(TAG, "else statement part");
                     Message newEntry = new Message(texts);
                     newEntry.setReceiver(newUser.getPartner());
                     newEntry.setSender(newUser.getToken());
                     myDatabase.child("message").child(newUser.getPartner()).setValue(newEntry);
-                }
+                }*/
             }
 
             @Override

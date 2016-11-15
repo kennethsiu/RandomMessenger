@@ -175,7 +175,7 @@ public class ChatScreen extends AppCompatActivity {
                     Message m = snap.getValue(Message.class);
                     String receiver = m.getReceiver();
                     Log.d(TAG, receiver);
-                    if(receiver.equals(newUser.getToken()))
+                    if(receiver.equals(newUser.getToken())&&!m.getDisplayed())
                     {
                         List<String> messages = m.getText();
                         Log.d(TAG, "inside first if");
@@ -183,6 +183,8 @@ public class ChatScreen extends AppCompatActivity {
                             Log.d(TAG, messages.get(0));
                             m.setSentMessage(false);
                             arrAdapt.add(m);
+                            m.setDisplayed(true);
+                            myDatabase.child("message").child(receiver).setValue(m);
                             Log.d(TAG,"inside second if");
 
                         }

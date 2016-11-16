@@ -60,12 +60,10 @@ public class ChatScreen extends AppCompatActivity {
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         newUser = new MyUser(refreshedToken);
         myDatabase.child("users").child(newUser.getToken()).setValue(newUser);
-        //myDatabase.child(newUser.getToken()).setValue(newUser);
         //match new user with a partner
         ValueEventListener userListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                boolean success = false;
                 DataSnapshot users = dataSnapshot.child("users");
                 for(DataSnapshot snap : users.getChildren())
                 {
@@ -80,37 +78,9 @@ public class ChatScreen extends AppCompatActivity {
                         potentialPartner.setMatched(true);
                         myDatabase.child("users").child(newUser.getToken()).setValue(newUser);
                         myDatabase.child("users").child(potentialPartner.getToken()).setValue(potentialPartner);
-                        //myDatabase.child("message").child(potentialPartner.getToken()).setValue(null);
-                        //myDatabase.child(newUser.getToken()).setValue(newUser);
-                        //myDatabase.child(potentialPartner.getToken()).setValue(potentialPartner);
-                        success = true;
+
                     }
                 }
-//                while(x<2)
-//                {
-//                    Log.d(TAG, "Trying to see how many times it prints.");
-//                    if(x==0) {
-//                        storeMessage("testing to send this message");
-//                        Log.d(TAG, "FIRST STORE MESSAGE");
-//                    }
-//                    else if(x==1) {
-//                        storeMessage("sending second message");
-//                        Log.d(TAG, "SECOND STORE MESSAGE.");
-//                    }
-//                    x++;
-//                }
-//                if(!success)
-//                {
-//                    //print "sorry, noone is available" message
-//                }
-//                while(x<2)
-//                {
-//                    if(x==0)
-//                        storeMessage("first message");
-//                    else
-//                        storeMessage("second message");
-//                    x++;
-//                }
 
             }
 
@@ -141,10 +111,11 @@ public class ChatScreen extends AppCompatActivity {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     //commented out by Anu because I commented out sendMessage
                     Log.d(TAG, "else statement part");
-                    Message newEntry = new Message(messageText.getText().toString().trim());
-                    newEntry.setReceiver(newUser.getPartner());
-                    newEntry.setSender(newUser.getToken());
-                    myDatabase.child("message").child(newUser.getPartner()).setValue(newEntry);
+                    storeMessage(messageText.getText().toString().trim());
+                    //Message newEntry = new Message(messageText.getText().toString().trim());
+                    //newEntry.setReceiver(newUser.getPartner());
+                    //newEntry.setSender(newUser.getToken());
+                    //myDatabase.child("message").child(newUser.getPartner()).setValue(newEntry);
                     sendMessage();
 
                 }
@@ -214,44 +185,18 @@ public class ChatScreen extends AppCompatActivity {
         ValueEventListener messageListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                /*
-                    DataSnapshot users = dataSnapshot.child("message");
-                    //for (DataSnapshot snap : users.getChildren()) {
-                        //look through each message and see if it was sent from this user
-                     if(users.hasChild(newUser.getPartner())) {
-                         DataSnapshot snap = users.child(newUser.getPartner());
-                         Message m = snap.getValue(Message.class);
-                         String sender = m.getSender();
-                         //user send message before. maybe double texting??
-                         if (sender.equals(newUser.getToken())) {
-                             List<String> textContent = m.getText();
-                             String latestStr = textContent.get(textContent.size() - 1);
-                             if (!latestStr.equals(texts)) {
-                                 m.addText(texts);
-                                 myDatabase.child("message").child(m.getReceiver()).setValue(m);
-                             }
-
-                         }
-                     }
-
-                    //}
-                    //user hasn't send message before. new entry
-                     else{
-                     */
+                DataSnapshot users = dataSnapshot.child("users");
+                for(DataSnapshot snap : users.getChildren()) {
+                    MyUser potentialUpdate = snap.getValue(MyUser.class);
+                    if(potentialUpdate.getToken().equals(newUser.getToken())) {
                         Message newEntry = new Message(texts);
-                        newEntry.setReceiver(newUser.getPartner());
-                        newEntry.setSender(newUser.getToken());
-                        myDatabase.child("message").child(newUser.getPartner()).setValue(newEntry);
-                        myDatabase.child("message").child(newUser.getToken()).setValue(newEntry);
-                        String label1 = "message" + newUser.getPartner();
-                        String label2 = "message" + newUser.getToken();
-                        //myDatabase.child(label1).setValue(newEntry);
-                        //myDatabase.child(label2).setValue(newEntry);
-                    //}
-
+                        newEntry.setReceiver(potentialUpdate.getPartner());
+                        newEntry.setSender(potentialUpdate.getToken());
+                        myDatabase.child("message").child(potentialUpdate.getPartner()).setValue(newEntry);
+                    }
+                }
 
             }
-
 
             @Override
             public void onCancelled(DatabaseError databaseError) {

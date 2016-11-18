@@ -27,7 +27,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import java.util.*;
 
 public class ChatScreen extends AppCompatActivity {
-    private static final String TAG = "CharScreen";
+    private static final String TAG = "ChatScreen";
     private static ChatScreenArrayAdapter arrAdapt;
     private EditText messageText;
     private Button sendButton;
@@ -49,6 +49,7 @@ public class ChatScreen extends AppCompatActivity {
 
         //database reference
         myDatabase = FirebaseDatabase.getInstance().getReference();
+        Log.d(TAG,myDatabase.toString());
         //get token and add new user to database
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         newUser = new MyUser(refreshedToken);
@@ -64,11 +65,11 @@ public class ChatScreen extends AppCompatActivity {
                 {
                     MyUser potentialPartner = snap.getValue(MyUser.class);
                     //found someone who isn't matched yet
-                    if(!potentialPartner.getMatched())
+                    if(!newUser.getMatched()&&!potentialPartner.getMatched()&&newUser.getToken()!=potentialPartner.getToken())
                     {
-                        newUser.setPartner(potentialPartner);
+                        newUser.setPartner(potentialPartner.getToken());
                         newUser.setMatched(true);
-                        potentialPartner.setPartner(newUser);
+                        potentialPartner.setPartner(newUser.getToken());
                         potentialPartner.setMatched(true);
                         myDatabase.child("users").child(newUser.getToken()).setValue(newUser);
                         myDatabase.child("users").child(potentialPartner.getToken()).setValue(potentialPartner);
@@ -97,7 +98,7 @@ public class ChatScreen extends AppCompatActivity {
         sendButton = (Button) findViewById(R.id.sendButton);
         final ListView messageList = (ListView) findViewById(R.id.message_list);
 
-        arrAdapt = new ChatScreenArrayAdapter(getApplicationContext(), R.layout.message_bubble);
+        arrAdapt = new ChatScreenArrayAdapter(getApplicationContext(), R.layout.message_bubble_right);
         messageList.setAdapter(arrAdapt);
 
         messageText = (EditText) findViewById(R.id.edit_message);
@@ -142,27 +143,36 @@ public class ChatScreen extends AppCompatActivity {
         ValueEventListener messageListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                DataSnapshot users = dataSnapshot.child("message");
-                boolean added = false;
-                for (DataSnapshot snap : users.getChildren()) {
-                    //look through each message and see if it was sent from this user
-                    Message m = snap.getValue(Message.class);
-                    MyUser sender = m.getSender();
-                    //user send message before. maybe double texting??
-                    if (sender.getToken().equals(newUser.getToken())) {
-                        m.addText(texts);
-                        myDatabase.child("message").child(sender.getPartner().getToken()).setValue(m);
-                        added = true;
+                if(dataSnapshot.hasChild("message")) {
+                    DataSnapshot users = dataSnapshot.child("message");
+                    boolean added = false;
+                    for (DataSnapshot snap : users.getChildren()) {
+                        //look through each message and see if it was sent from this user
+                        Message m = snap.getValue(Message.class);
+                        String sender = m.getSender();
+                        //user send message before. maybe double texting??
+                        if (sender.equals(newUser.getToken())) {
+                            m.addText(texts);
+                            myDatabase.child("message").child(m.getReceiver()).setValue(m);
+                            added = true;
+                        }
+                    }
+                    //user hasn't sent message before. new entry
+                    if(!added)
+                    {
+                        Message newEntry = new Message(texts);
+                        newEntry.setReceiver(newUser.getPartner());
+                        newEntry.setSender(newUser.getToken());
+                        myDatabase.child("message").child(newUser.getPartner()).setValue(newEntry);
                     }
                 }
-                //user hasn't send message before. new entry
-                if (!added) {
+                //first ever message. create message field and add message
+                else{
                     Message newEntry = new Message(texts);
                     newEntry.setReceiver(newUser.getPartner());
-                    newEntry.setSender(newUser);
-                    myDatabase.child("message").child(newUser.getPartner().getToken()).setValue(newEntry);
+                    newEntry.setSender(newUser.getToken());
+                    myDatabase.child("message").child(newUser.getPartner()).setValue(newEntry);
                 }
-
             }
 
             @Override
@@ -183,9 +193,9 @@ public class ChatScreen extends AppCompatActivity {
                 for (DataSnapshot snap : users.getChildren()) {
                     //look through each message and see if it was sent for this user
                     Message m = snap.getValue(Message.class);
-                    MyUser receiver = m.getReceiver();
+                    String receiver = m.getReceiver();
                     //message for user found
-                    if (receiver.getToken().equals(newUser.getToken())) {
+                    if (receiver.equals(newUser.getToken())) {
                         //see if displayed on screen yet
                         if (!m.getDisplayed()) {
                             List<String> messagesContent = m.getText();

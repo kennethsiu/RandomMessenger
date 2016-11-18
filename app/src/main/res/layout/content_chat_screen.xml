@@ -32,7 +32,7 @@
         <!--android:paddingLeft="10dp"-->
         <!--android:paddingRight="10dp"-->
         <!--android:paddingTop="5dp"-->
-        <!--android:background="@drawable/textbox"-->
+        <!--android:background="@drawable/textbox_right"-->
         <!--android:text="Yup"-->
         <!--android:textColor="#000" />-->
 

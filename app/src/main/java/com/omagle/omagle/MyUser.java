@@ -7,20 +7,20 @@ package com.omagle.omagle;
 public class MyUser {
     String token;
     boolean matched;
-    MyUser partner;
+    String partner;
 
     public MyUser()
     {
         token ="";
         matched = false;
-        partner = null;
+        partner = "TESTING";
     }
 
     public MyUser(String t)
     {
         token = t;
         matched = false;
-        partner = null;
+        partner = "TESTING";
     }
 
     public String getToken()
@@ -33,7 +33,7 @@ public class MyUser {
         return matched;
     }
 
-    public MyUser getPartner()
+    public String getPartner()
     {
         return partner;
     }
@@ -48,7 +48,7 @@ public class MyUser {
         matched = m;
     }
 
-    public void setPartner(MyUser p)
+    public void setPartner(String p)
     {
         partner = p;
     }

@@ -43,11 +43,20 @@ public class ChatScreenArrayAdapter extends ArrayAdapter<Message> {
         Message message = getItem(pos);
         View row = convertView;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        row = inflater.inflate(R.layout.message_bubble_right, parent, false);
+        TextView messageText;
+        if (message.didMessageSend()) {
+            row = inflater.inflate(R.layout.message_bubble_right, parent, false);
+            messageText = (TextView) row.findViewById(R.id.message_text_right);
+        }
+        else {
+            row = inflater.inflate(R.layout.message_bubble_left, parent, false);
+            messageText = (TextView) row.findViewById(R.id.message_text_left);
+        }
+        //took out for loop because changed getText to return String instead of List<String>
+        String body = message.getText();
+        if (body != null)
+            messageText.setText(body);
 
-        TextView messageText = (TextView) row.findViewById(R.id.message_text_right);
-        // commented out by Anu because I changed message class
-        //messageText.setText(message.getText());
         return row;
 
     }

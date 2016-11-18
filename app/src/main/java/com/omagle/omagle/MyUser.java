@@ -13,14 +13,14 @@ public class MyUser {
     {
         token ="";
         matched = false;
-        partner = "TESTING";
+        partner = "Default partner";
     }
 
     public MyUser(String t)
     {
         token = t;
         matched = false;
-        partner = "TESTING";
+        partner = "Default partner";
     }
 
     public String getToken()

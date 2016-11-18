@@ -3,40 +3,36 @@ package com.omagle.omagle;
 
 import java.util.ArrayList;
 import java.util.List;
+import android.util.Log;
 
 /**
  * Created by Michael on 10/30/16.
  */
 
 public class Message {
-    private List<String> texts;
+    private String texts;
     private String sender;
     private String receiver;
     private boolean displayed;
+    private boolean sentMessage;
 
     public Message()
     {
-        texts = null;
+        texts = "";
         sender = "";
         receiver = "";
         displayed = false;
     }
 
-    public Message(List<String> text){
+    public Message(String text){
         this.texts = text;
         sender = "";
         receiver = "";
         displayed = false;
+        sentMessage = false;
     }
 
-    public Message(String t){
-        texts = new ArrayList<>();
-        texts.add(t);
-        sender = "";
-        receiver = "";
-        displayed = false;
-    }
-    public List<String> getText()
+    public String getText()
     {
         return texts;
     }
@@ -56,22 +52,11 @@ public class Message {
         return displayed;
     }
 
-    public void setText(List<String> t)
+    public void setText(String t)
     {
         texts = t;
     }
 
-    public void addText(String newText)
-    {
-        if(!displayed)
-            texts.add(newText);
-        else
-        {
-            texts = new ArrayList<>();
-            texts.add(newText);
-            displayed = false;
-        }
-    }
     public void setSender(String s)
     {
         sender = s;
@@ -87,4 +72,7 @@ public class Message {
         displayed = d;
     }
 
+    public void setSentMessage(boolean s) { sentMessage = s; }
+
+    public boolean didMessageSend() { return sentMessage; }
 }

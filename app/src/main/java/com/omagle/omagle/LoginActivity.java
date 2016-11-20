@@ -128,7 +128,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void goToSignUp(View view) {
-        Intent intent = new Intent(this, Sign_Up.class);
+        Intent intent = new Intent(this, SignUp.class);
         startActivity(intent);
     }
 

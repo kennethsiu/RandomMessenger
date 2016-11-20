@@ -23,6 +23,8 @@
     <string name="send_button">
         "Send"
     </string>
+    <string name="exit_chat">"Exit Chat"</string>
+    <string name="stranger_chat">"Chatting with stranger..."</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

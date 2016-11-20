@@ -35,7 +35,25 @@
         <!--android:background="@drawable/textbox_right"-->
         <!--android:text="Yup"-->
         <!--android:textColor="#000" />-->
+    <LinearLayout
+        android:id="@+id/top_layout_info"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal">
+        <TextView android:id="@+id/chat_info"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/stranger_chat"
+            android:textSize="20sp"/>
+        <Button
+            android:id="@+id/exitButton"
+            android:layout_width="111dp"
+            android:layout_height="wrap_content"
+            android:text="@string/exit_chat" />
 
+    </LinearLayout>
     <LinearLayout
         android:id="@+id/bottom_layout_interface"
         android:layout_width="fill_parent"
@@ -56,13 +74,6 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/exitButton"
-        android:layout_width="111dp"
-        android:layout_height="wrap_content"
-        android:text="Exit Chat"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
     <!--<LinearLayout-->
             <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
             <!--xmlns:tools="http://schemas.android.com/tools"-->

@@ -76,6 +76,9 @@ public class SignUp extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(passw.getText().toString() == null) {
+                    // TODO: This check needs to be implemented.. possibly R.string.error_email or something
+                }
                 if(!(passw.getText().toString().equals(confPass.getText().toString()))) {
                     Log.d(TAG, passw.getText().toString() + " " + confPass.getText().toString());
                     Log.d(TAG, "Password not the same");

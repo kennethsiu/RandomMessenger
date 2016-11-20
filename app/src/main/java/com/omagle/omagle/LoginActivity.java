@@ -111,8 +111,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
         //Move to the sign up page
-        Button signInButton = (Button) findViewById(R.id.signUpButton);
-        signInButton.setOnClickListener(new OnClickListener() {
+        Button signUpButton = (Button) findViewById(R.id.signUpButton);
+        signUpButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToSignUp(view);

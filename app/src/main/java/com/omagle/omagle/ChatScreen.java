@@ -207,6 +207,8 @@ public class ChatScreen extends AppCompatActivity {
             if(receiver.equals(newUser.getToken()) && !m.getDisplayed())
             {
                 String messages = m.getText();
+                if (messages.equals(newUser.getToken()))
+                    onBackPressed();
                 if(messages != null) {
                     m.setSentMessage(false);
                     arrAdapt.add(m);

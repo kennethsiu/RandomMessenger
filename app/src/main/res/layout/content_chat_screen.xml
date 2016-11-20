@@ -13,13 +13,13 @@
     <ListView
         android:id="@+id/message_list"
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="fill_parent"
         android:background="@color/chat_background"
         android:divider="@null"
-        android:layout_gravity="left"
+        android:layout_above="@+id/bottom_layout_interface"
+        android:layout_gravity="start"
         android:stackFromBottom="true"
-        android:transcriptMode="alwaysScroll"></ListView>
+        android:transcriptMode="alwaysScroll"/>
 
     <!--<TextView-->
         <!--android:id="@+id/messages"-->
@@ -61,7 +61,6 @@
         android:layout_width="111dp"
         android:layout_height="wrap_content"
         android:text="Exit Chat"
-        android:layout_below="@+id/message_list"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
     <!--<LinearLayout-->

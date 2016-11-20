@@ -9,6 +9,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +29,7 @@ public class ChatScreen extends AppCompatActivity {
     private static ChatScreenArrayAdapter arrAdapt;
     private EditText messageText;
     private Button sendButton;
+    private Button exitButton;
 
     //database related things
     private DatabaseReference myDatabase;
@@ -70,6 +72,7 @@ public class ChatScreen extends AppCompatActivity {
         setContentView(R.layout.activity_chat_screen);
 
         sendButton = (Button) findViewById(R.id.sendButton);
+        exitButton = (Button) findViewById(R.id.exitButton);
         final ListView messageList = (ListView) findViewById(R.id.message_list);
 
         arrAdapt = new ChatScreenArrayAdapter(getApplicationContext(), R.layout.message_bubble_right);
@@ -97,6 +100,15 @@ public class ChatScreen extends AppCompatActivity {
                 Log.d(TAG, "trying to send message: onClick");
                 storeMessage(messageText.getText().toString().trim());
                 sendMessage();
+            }
+        });
+        //when pressing the exit chat button
+        exitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "trying to exit chat: onClick");
+                onBackPressed();
+
             }
         });
 
@@ -227,8 +239,10 @@ public class ChatScreen extends AppCompatActivity {
         AppIndex.AppIndexApi.start(client, getIndexApiAction());
     }
 
+
     @Override
     public void onStop() {
+        deleteChat();
         super.onStop();
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -236,4 +250,27 @@ public class ChatScreen extends AppCompatActivity {
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
     }
+
+
+
+    @Override
+    public void onBackPressed(){
+        deleteChat();
+        super.onBackPressed();
+    }
+
+    private void goToStartChat() {
+        Intent intent = new Intent(this, StartChat.class);
+        startActivity(intent);
+    }
+
+    public void deleteChat() {
+        myDatabase.child("message").child(newUser.getToken()).removeValue();
+        newUser.setMatched(false);
+        newUser.setPartner("Default partner");
+        myDatabase.child("users").child(newUser.getToken()).removeValue();
+    }
+
+
+
 }

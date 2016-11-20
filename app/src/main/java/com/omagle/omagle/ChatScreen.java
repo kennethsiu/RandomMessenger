@@ -192,7 +192,7 @@ public class ChatScreen extends AppCompatActivity {
             Message m = snap.getValue(Message.class);
             String receiver = m.getReceiver();
             String sender = m.getSender();
-            if(receiver.equals(newUser.getToken())&&sender.equals(newUser.getPartner())&&!m.getDisplayed())
+            if(receiver.equals(newUser.getToken())&&!m.getDisplayed())
             {
                 String messages = m.getText();
                 if(messages != null) {

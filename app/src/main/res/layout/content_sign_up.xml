@@ -5,10 +5,18 @@
     android:weightSum="1">
 
     <TextView
+        android:text=""
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView6"
+        android:layout_weight="0.0" />
+
+    <TextView
         android:text="Welcome to Omagle!"
         android:layout_width="match_parent"
         android:layout_height="26dp"
-        android:id="@+id/textView2"
+        android:textSize="25dp"
+        android:id="@+id/WelcomeToOmagle"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:layout_weight="0.05"
         android:textStyle="bold" />
@@ -16,8 +24,9 @@
     <TextView
         android:text="Please enter your UCSD email address"
         android:layout_width="match_parent"
+        android:textSize="15dp"
         android:layout_height="wrap_content"
-        android:id="@+id/textView3"
+        android:id="@+id/PleaseEnterUCSDEmail"
         android:layout_weight="0.05"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textStyle="normal|bold" />
@@ -27,7 +36,7 @@
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:ems="10"
-        android:id="@+id/editText2"
+        android:id="@+id/enterEmail"
         android:layout_weight="0.05"
         android:hint="example@ucsd.edu" />
 
@@ -35,7 +44,8 @@
         android:text="Please enter your password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView4"
+        android:id="@+id/PleaseEnterYourPassword"
+        android:textSize="15dp"
         android:layout_weight="0.05"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textStyle="normal|bold" />
@@ -45,7 +55,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/editText3"
+        android:id="@+id/EnterPassword"
         android:layout_weight="0.05"
         android:hint="enter password" />
 
@@ -54,7 +64,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/editText4"
+        android:id="@+id/ConfirmPassword"
         android:layout_weight="0.05"
         android:hint="confirm password" />
 
@@ -62,7 +72,7 @@
         android:text="Sign Up!"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button2"
+        android:id="@+id/beginSignUp"
         android:layout_weight="0.05" />
 
 </LinearLayout>

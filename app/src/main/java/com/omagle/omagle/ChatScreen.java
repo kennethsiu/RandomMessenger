@@ -10,11 +10,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -30,6 +32,7 @@ public class ChatScreen extends AppCompatActivity {
     private EditText messageText;
     private Button sendButton;
     private Button exitButton;
+    private ListView messageList;
 
     //database related things
     private DatabaseReference myDatabase;
@@ -73,10 +76,11 @@ public class ChatScreen extends AppCompatActivity {
 
         sendButton = (Button) findViewById(R.id.sendButton);
         exitButton = (Button) findViewById(R.id.exitButton);
-        final ListView messageList = (ListView) findViewById(R.id.message_list);
+        messageList = (ListView) findViewById(R.id.message_list);
 
         arrAdapt = new ChatScreenArrayAdapter(getApplicationContext(), R.layout.message_bubble_right);
         messageList.setAdapter(arrAdapt);
+        messageList.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
 
         messageText = (EditText) findViewById(R.id.edit_message);
 
@@ -86,6 +90,7 @@ public class ChatScreen extends AppCompatActivity {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     Log.d(TAG, "trying to send message: onKey");
                     storeMessage(messageText.getText().toString().trim());
+                    Log.d(TAG, "after store message");
                     sendMessage();
                     return true;
                 }
@@ -109,6 +114,15 @@ public class ChatScreen extends AppCompatActivity {
                 Log.d(TAG, "trying to exit chat: onClick");
                 onBackPressed();
 
+            }
+        });
+
+        arrAdapt.registerDataSetObserver(new DataSetObserver() {
+            @Override
+            public void onChanged() {
+                Log.d("arrAdaptListener","inside");
+                super.onChanged();
+                messageList.setSelection(arrAdapt.getCount() - 1);
             }
         });
 

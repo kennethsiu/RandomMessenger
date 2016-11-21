@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/chat_background_eyebleed">
+    <item>
+        <shape>
+            <stroke
+                android:width="2dp"
+                android:color="@color/chat_background_eyebleed" />
+
+            <solid android:color="@color/left_bubble_eyebleed" />
+
+            <padding
+                android:bottom="7dp"
+                android:left="12dp"
+                android:right="12dp"
+                android:top="7dp" />
+
+            <corners android:radius="12dp" />
+        </shape>
+    </item>
+</layer-list>

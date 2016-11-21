@@ -44,7 +44,7 @@
         android:paddingLeft="10sp"/>
 
     <TextView
-        android:text="Please enter your password"
+        android:text="Please enter a password at least 8 characters long"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/PleaseEnterYourPassword"

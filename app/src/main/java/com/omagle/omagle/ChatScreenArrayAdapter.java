@@ -56,7 +56,6 @@ public class ChatScreenArrayAdapter extends ArrayAdapter<Message> {
         //took out for loop because changed getText to return String instead of List<String>
         String body = message.getText();
         if (body != null) {
-            Log.d("arrAd","is it setting message text"+body);
             messageText.setText(body);
         }
         return row;

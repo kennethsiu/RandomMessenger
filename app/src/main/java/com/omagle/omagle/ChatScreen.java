@@ -35,6 +35,8 @@ public class ChatScreen extends AppCompatActivity {
     private Button sendButton;
     private Button exitButton;
     private ListView messageList;
+    private ValueEventListener messageListener;
+
     private static final String BUMPED = "kjasdjf1290alks9124klalksdklf91239lkaskldf9012lkmzmqp102";
 
     //database related things
@@ -130,7 +132,7 @@ public class ChatScreen extends AppCompatActivity {
         });
 
         //receiver mesage
-        ValueEventListener messageListener = new ValueEventListener() {
+        messageListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 retrieveMessage(dataSnapshot);
@@ -155,7 +157,7 @@ public class ChatScreen extends AppCompatActivity {
         {
             MyUser potentialPartner = snap.getValue(MyUser.class);
             //found someone who isn't matched yet
-            if(!newUser.getMatched()&&!potentialPartner.getMatched()&&newUser.getToken()!=potentialPartner.getToken())
+            if(!newUser.getMatched()&&!potentialPartner.getMatched()&&!newUser.getToken().equals(potentialPartner.getToken()))
             {
                 newUser.setPartner(potentialPartner.getToken());
                 newUser.setMatched(true);
@@ -212,7 +214,7 @@ public class ChatScreen extends AppCompatActivity {
                 String messages = m.getText();
                 if (messages != null && messages.equals(BUMPED))
                     otherUserEnded();
-                if(messages != null) {
+                else if(messages != null) {
                     m.setSentMessage(false);
                     arrAdapt.add(m);
                     m.setDisplayed(true);
@@ -266,8 +268,8 @@ public class ChatScreen extends AppCompatActivity {
         super.onStop();
         finish();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
+         //ATTENTION: This was auto-generated to implement the App Indexing API.
+         //See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
     }
@@ -283,6 +285,7 @@ public class ChatScreen extends AppCompatActivity {
         finish();
     }
 
+
     private void goToStartChat() {
         Intent intent = new Intent(this, StartChat.class);
         startActivity(intent);
@@ -293,26 +296,33 @@ public class ChatScreen extends AppCompatActivity {
         newUser.setMatched(false);
         newUser.setPartner("Default partner");
         myDatabase.child("users").child(newUser.getToken()).removeValue();
-    }
-    public void bumpOtherUser(){
-        Message newEntry = new Message(BUMPED);
-        newEntry.setReceiver(newUser.getPartner());
-        newEntry.setSender(newUser.getToken());
-        myDatabase.child("message").child(newUser.getPartner()).setValue(newEntry);
-    }
-
-    public void otherUserEnded() {
-        int duration = Toast.LENGTH_SHORT;
-        String bumpedMessage = "Other user has ended the chat.";
-        Toast toast = Toast.makeText(getApplicationContext(), bumpedMessage, duration);
-        toast.show();
-        onBackPressed();
+        myDatabase.removeEventListener(messageListener);
+        this.finish();
     }
 
     /*
          * A fix for an error with bumping another user. Pulled from:
          * http://stackoverflow.com/questions/7469082/getting-exception-illegalstateexception-can-not-perform-this-action-after-onsa
          */
+    public void bumpOtherUser(){
+        Log.d("BUMP",newUser.getPartner());
+        storeMessage(BUMPED);
+    }
+
+    public void otherUserEnded() {
+        myDatabase.child("message").child(newUser.getToken()).removeValue();
+        int duration = Toast.LENGTH_SHORT;
+        String bumpedMessage = "Other user has ended the chat.";
+        Toast toast = Toast.makeText(getApplicationContext(), bumpedMessage, duration);
+        toast.show();
+        deleteChat();
+        super.onBackPressed();
+    }
+
+    /*
+     * A fix for an error with bumping another user. Pulled from:
+     * http://stackoverflow.com/questions/7469082/getting-exception-illegalstateexception-can-not-perform-this-action-after-onsa
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putString("WORKAROUND_FOR_BUG_19917_KEY", "WORKAROUND_FOR_BUG_19917_VALUE");

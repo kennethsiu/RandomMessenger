@@ -28,6 +28,15 @@ public class StartChat extends AppCompatActivity {
                 startChat(v);
             }
         });
+
+        //added by MinhTuan to go to settings
+        final Button settingsButton = (Button) findViewById(R.id.settingsButton);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                settings(v);
+            }
+        });
     }
     private void signOut(View view) {
         Intent signOutIntent = new Intent(this, LoginActivity.class);
@@ -39,6 +48,10 @@ public class StartChat extends AppCompatActivity {
         Intent startChatIntent = new Intent(this, ChatScreen.class);
         startActivity(startChatIntent);
     }
-
+    //added by MinhTuan
+    private void settings(View view){
+        Intent settingsIntent = new Intent(this, Settings.class);
+        startActivity(settingsIntent);
+    }
 
 }

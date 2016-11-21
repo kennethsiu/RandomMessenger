@@ -10,7 +10,7 @@ import android.util.Log;
  */
 
 public class Message {
-    private List<String> texts;
+    private String texts;
     private String sender;
     private String receiver;
     private boolean displayed;
@@ -18,28 +18,21 @@ public class Message {
 
     public Message()
     {
-        texts = new ArrayList<String>();
+        texts = "";
         sender = "";
         receiver = "";
         displayed = false;
     }
 
-    public Message(List<String> text){
+    public Message(String text){
         this.texts = text;
         sender = "";
         receiver = "";
         displayed = false;
+        sentMessage = false;
     }
 
-    public Message(String t){
-        texts = new ArrayList<>();
-        texts.add(t);
-        sender = "";
-        receiver = "";
-        displayed = false;
-        sentMessage = true;
-    }
-    public List<String> getText()
+    public String getText()
     {
         return texts;
     }
@@ -59,25 +52,11 @@ public class Message {
         return displayed;
     }
 
-    public void setText(List<String> t)
+    public void setText(String t)
     {
         texts = t;
     }
 
-    public void addText(String newText)
-    {
-        if(!displayed) {
-            Log.d("MT says test if", newText);
-            texts.add(newText);
-        }
-        else
-        {
-            Log.d("MT says else",newText);
-            texts = new ArrayList<>();
-            texts.add(newText);
-            displayed = false;
-        }
-    }
     public void setSender(String s)
     {
         sender = s;
@@ -95,5 +74,5 @@ public class Message {
 
     public void setSentMessage(boolean s) { sentMessage = s; }
 
-    public boolean isSentMessage() { return sentMessage; }
+    public boolean didMessageSend() { return sentMessage; }
 }

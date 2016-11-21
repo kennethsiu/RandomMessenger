@@ -16,7 +16,8 @@
         android:fillViewport="false">
 
         <LinearLayout android:id="@+id/email_login_form" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:orientation="vertical">
+            android:layout_height="wrap_content" android:orientation="vertical"
+            android:weightSum="1">
 
             <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -25,7 +26,7 @@
                     android:layout_height="wrap_content" android:hint="@string/prompt_email"
                     android:inputType="textEmailAddress" android:maxLines="1"
                     android:singleLine="true"
-                    android:text=" " />
+                    android:text="" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -33,20 +34,32 @@
                 android:layout_height="wrap_content">
 
                 <EditText android:id="@+id/password" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:hint="@string/prompt_password"
+                    android:layout_height="wrap_content"
                     android:imeActionId="@+id/login"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified" android:inputType="textPassword"
                     android:maxLines="1" android:singleLine="true"
-                    android:text=" " />
+                    android:hint="@string/prompt_password" />
 
             </android.support.design.widget.TextInputLayout>
 
             <Button android:id="@+id/email_sign_in_button" style="?android:textAppearanceSmall"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" android:text="@string/action_sign_in"
+                android:layout_marginTop="16dp" android:text="Login"
                 android:textStyle="bold"/>
-                <!-- android:onClick="gotoStartChat"/> //NEW -->
+
+            <TextView
+                android:text="Or"
+                android:layout_width="181dp"
+                android:layout_height="32dp"
+                android:id="@+id/textView5" />
+
+            <Button
+                android:text="Sign Up"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/signUpButton" />
+            <!-- android:onClick="gotoStartChat"/> //NEW -->
 
         </LinearLayout>
     </ScrollView>

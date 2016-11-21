@@ -1,6 +1,7 @@
 package com.omagle.omagle;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,18 +45,18 @@ public class ChatScreenArrayAdapter extends ArrayAdapter<Message> {
         View row = convertView;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         TextView messageText;
-        if (message.isSentMessage()) {
+        if (message.didMessageSend()) {
             row = inflater.inflate(R.layout.message_bubble_right, parent, false);
-            messageText = (TextView) row.findViewById(R.id.message_text_right);
+            messageText = (TextView) row.findViewById(R.id.message_text);
         }
         else {
             row = inflater.inflate(R.layout.message_bubble_left, parent, false);
-            messageText = (TextView) row.findViewById(R.id.message_text_left);
+            messageText = (TextView) row.findViewById(R.id.message_text);
         }
-        // commented out by Anu because I changed message class
-        for (String body : message.getText()) {
-            if (body != null)
-                messageText.setText(body);
+        //took out for loop because changed getText to return String instead of List<String>
+        String body = message.getText();
+        if (body != null) {
+            messageText.setText(body);
         }
         return row;
 

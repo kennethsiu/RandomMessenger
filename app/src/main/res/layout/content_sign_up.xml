@@ -15,6 +15,8 @@
         android:text="Welcome to Omagle!"
         android:layout_width="match_parent"
         android:layout_height="26dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:textSize="25dp"
         android:id="@+id/WelcomeToOmagle"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -28,14 +30,18 @@
         android:layout_height="wrap_content"
         android:id="@+id/PleaseEnterUCSDEmail"
         android:layout_weight="0.05"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textStyle="normal|bold" />
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:ems="10"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:id="@+id/enterEmail"
         android:layout_weight="0.05"
         android:hint="example@ucsd.edu" />
@@ -46,33 +52,36 @@
         android:layout_height="wrap_content"
         android:id="@+id/PleaseEnterYourPassword"
         android:textSize="15dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:layout_weight="0.05"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textStyle="normal|bold" />
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:id="@+id/EnterPassword"
-        android:layout_weight="0.05"
         android:hint="enter password" />
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:id="@+id/ConfirmPassword"
-        android:layout_weight="0.05"
         android:hint="confirm password" />
 
     <Button
         android:text="Sign Up!"
-        android:layout_width="match_parent"
+        android:layout_width="294dp"
         android:layout_height="wrap_content"
-        android:id="@+id/beginSignUp"
-        android:layout_weight="0.05" />
+        android:id="@+id/beginSignUp" />
 
 </LinearLayout>

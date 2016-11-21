@@ -21,6 +21,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.util.Log;
+import android.widget.Toast;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -33,6 +35,7 @@ public class ChatScreen extends AppCompatActivity {
     private Button sendButton;
     private Button exitButton;
     private ListView messageList;
+    private static final String BUMPED = "kjasdjf1290alks9124klalksdklf91239lkaskldf9012lkmzmqp102";
 
     //database related things
     private DatabaseReference myDatabase;
@@ -207,8 +210,8 @@ public class ChatScreen extends AppCompatActivity {
             if(receiver.equals(newUser.getToken()) && !m.getDisplayed())
             {
                 String messages = m.getText();
-                if (messages.equals(newUser.getToken()))
-                    onBackPressed();
+                if (messages != null && messages.equals(BUMPED))
+                    otherUserEnded();
                 if(messages != null) {
                     m.setSentMessage(false);
                     arrAdapt.add(m);
@@ -258,8 +261,10 @@ public class ChatScreen extends AppCompatActivity {
 
     @Override
     public void onStop() {
+        bumpOtherUser();
         deleteChat();
         super.onStop();
+        finish();
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -269,10 +274,13 @@ public class ChatScreen extends AppCompatActivity {
 
 
 
+
     @Override
     public void onBackPressed(){
+        bumpOtherUser();
         deleteChat();
         super.onBackPressed();
+        finish();
     }
 
     private void goToStartChat() {
@@ -286,7 +294,28 @@ public class ChatScreen extends AppCompatActivity {
         newUser.setPartner("Default partner");
         myDatabase.child("users").child(newUser.getToken()).removeValue();
     }
+    public void bumpOtherUser(){
+        Message newEntry = new Message(BUMPED);
+        newEntry.setReceiver(newUser.getPartner());
+        newEntry.setSender(newUser.getToken());
+        myDatabase.child("message").child(newUser.getPartner()).setValue(newEntry);
+    }
 
+    public void otherUserEnded() {
+        int duration = Toast.LENGTH_SHORT;
+        String bumpedMessage = "Other user has ended the chat.";
+        Toast toast = Toast.makeText(getApplicationContext(), bumpedMessage, duration);
+        toast.show();
+        onBackPressed();
+    }
 
-
+    /*
+         * A fix for an error with bumping another user. Pulled from:
+         * http://stackoverflow.com/questions/7469082/getting-exception-illegalstateexception-can-not-perform-this-action-after-onsa
+         */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("WORKAROUND_FOR_BUG_19917_KEY", "WORKAROUND_FOR_BUG_19917_VALUE");
+        super.onSaveInstanceState(outState);
+    }
 }

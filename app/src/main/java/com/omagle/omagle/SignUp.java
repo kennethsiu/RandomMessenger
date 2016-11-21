@@ -1,5 +1,6 @@
 package com.omagle.omagle;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -27,12 +28,15 @@ public class SignUp extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private final String TAG = "Sign_up_activity";
+    private final String TAG = "Sign_Up_activity";
 
     private Button signUpButton;
     private EditText email;
     private EditText passw;
     private EditText confPass;
+    final String auth_failed = "Failed to create account";
+    View view1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,54 +71,87 @@ public class SignUp extends AppCompatActivity {
             }
         };
 
+
         email = (EditText) findViewById(R.id.enterEmail);
         passw = (EditText) findViewById(R.id.EnterPassword);
         confPass = (EditText) findViewById(R.id.ConfirmPassword);
 
-        //test comment
         signUpButton = (Button) findViewById(R.id.beginSignUp);
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(passw.getText().toString() == null) {
-                    // TODO: This check needs to be implemented.. possibly R.string.error_email or something
-                }
-                if(!(passw.getText().toString().equals(confPass.getText().toString()))) {
-                    Log.d(TAG, passw.getText().toString() + " " + confPass.getText().toString());
-                    Log.d(TAG, "Password not the same");
-                    return;
-                }
-                if(!email.getText().toString().contains("@ucsd.edu")) {
-                    Log.d(TAG, "invalid email");
-                    return;
-                }
-                Log.d(TAG, "right before createAccount");
-                createAccount(email.getText().toString(), passw.getText().toString());
-                Log.d(TAG, "right after createAccount");
+                String emailStr = email.getText().toString().trim();
+                String passStr = passw.getText().toString().trim();
+                String confPassStr = confPass.getText().toString().trim();
+                createAccount(emailStr, passStr, confPassStr, view);
             }
         });
     }
 
-    public void createAccount(String email, String password) {
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        /*if (!task.isSuccessful()) {
-                            Toast.makeText(Sign_Up.this, R.string.auth_failed,
-                                    Toast.LENGTH_SHORT).show();
-                        }*/
-
-                        // ...
-                    }
-                });
+    //Check if the password is longer than 7 chars
+    private boolean isPasswordValid(String password) {
+        if(!(password.length() > 7) || password.isEmpty())
+            return false;
+        return true;
     }
 
+    //Go to the start chat page
+    private void goToStartChat(View view) {
+        Intent intent = new Intent(this, StartChat.class);
+        startActivity(intent);
+    }
+
+    //Do necessary checks to see if email and password are correct, then create account
+    public boolean createAccount(String emailStr, String passStr, String confPassStr, final View view) {
+
+        View focusView = null;
+        Boolean cancel = false;
+        if (!(passStr.equals(confPassStr))) {
+            Log.d(TAG, passw.getText().toString() + " " + confPass.getText().toString());
+            Log.d(TAG, "Password not the same");
+            passw.setError("The passwords are not the same");
+            focusView = passw;
+            cancel = true;
+        }
+        // Check for a valid password, if the user entered one.
+        if (!isPasswordValid(passStr)) {
+            Log.d(TAG, "invalid password");
+            passw.setError("Invalid password");
+            focusView = passw;
+            cancel = true;
+        }
+        //Check for a valid email address
+        if (!emailStr.contains("@ucsd.edu") || emailStr.isEmpty()) {
+            Log.d(TAG, "invalid email");
+            email.setError("Invalid email");
+            focusView = email;
+            cancel = true;
+        }
+        //If the information is not valid, set the appropriate erorr screen and do not submit
+        if (cancel) {
+            focusView.requestFocus();
+            return false;
+        } else {
+            final String auth_failed = "Failed to create account";
+            mAuth.createUserWithEmailAndPassword(emailStr, passStr)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
+
+                            // If sign in fails, display a message to the user. If sign in succeeds
+                            // the auth state listener will be notified and logic to handle the
+                            // signed in user can be handled in the listener.
+                            if (!task.isSuccessful()) {
+                                Toast.makeText(SignUp.this, auth_failed,
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                            else {goToStartChat(view);}
+                        }
+                    });
+            return true;
+        }
+    }
 
 
 }

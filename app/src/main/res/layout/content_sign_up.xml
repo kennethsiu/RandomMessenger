@@ -82,5 +82,4 @@
         android:layout_weight="0.05"
         android:paddingLeft="10sp"
         android:paddingRight="10sp"/>
-
 </LinearLayout>

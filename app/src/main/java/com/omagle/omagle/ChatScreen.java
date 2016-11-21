@@ -266,6 +266,7 @@ public class ChatScreen extends AppCompatActivity {
         bumpOtherUser();
         deleteChat();
         super.onStop();
+        finish();
 
          //ATTENTION: This was auto-generated to implement the App Indexing API.
          //See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -275,11 +276,13 @@ public class ChatScreen extends AppCompatActivity {
 
 
 
+
     @Override
     public void onBackPressed(){
         bumpOtherUser();
         deleteChat();
         super.onBackPressed();
+        finish();
     }
 
 
@@ -297,6 +300,10 @@ public class ChatScreen extends AppCompatActivity {
         this.finish();
     }
 
+    /*
+         * A fix for an error with bumping another user. Pulled from:
+         * http://stackoverflow.com/questions/7469082/getting-exception-illegalstateexception-can-not-perform-this-action-after-onsa
+         */
     public void bumpOtherUser(){
         Log.d("BUMP",newUser.getPartner());
         storeMessage(BUMPED);

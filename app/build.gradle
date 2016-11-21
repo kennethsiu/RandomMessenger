@@ -12,6 +12,7 @@ android {
         versionName "1.0"
         // Enabling multidex support.
         multiDexEnabled true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -19,10 +20,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets { main { java.srcDirs = ['src/main/java', 'src/test/java'] } }
 }
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    // Required -- JUnit 4 framework
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.android.support:design:23.1.0'

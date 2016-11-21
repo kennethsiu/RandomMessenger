@@ -110,11 +110,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+        //Move to the sign up page
+        Button signInButton = (Button) findViewById(R.id.signUpButton);
+        signInButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToSignUp(view);
+            }
+        });
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
     private void goToStartChat(View view) {
         Intent intent = new Intent(this, StartChat.class);
+        startActivity(intent);
+    }
+
+    private void goToSignUp(View view) {
+        Intent intent = new Intent(this, Sign_Up.class);
         startActivity(intent);
     }
 
@@ -215,13 +229,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
+        return email.contains("@ucsd.edu");
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
+        //TODO: Replace this with your own length
+        return password.length() > 7;
     }
 
     /**

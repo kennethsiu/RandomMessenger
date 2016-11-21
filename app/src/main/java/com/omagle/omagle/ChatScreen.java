@@ -9,6 +9,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +21,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.util.Log;
+import android.widget.Toast;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -30,7 +33,11 @@ public class ChatScreen extends AppCompatActivity {
     private static ChatScreenArrayAdapter arrAdapt;
     private EditText messageText;
     private Button sendButton;
+    private Button exitButton;
     private ListView messageList;
+    private ValueEventListener messageListener;
+
+    private static final String BUMPED = "kjasdjf1290alks9124klalksdklf91239lkaskldf9012lkmzmqp102";
 
     //database related things
     private DatabaseReference myDatabase;
@@ -73,6 +80,7 @@ public class ChatScreen extends AppCompatActivity {
         setContentView(R.layout.activity_chat_screen);
 
         sendButton = (Button) findViewById(R.id.sendButton);
+        exitButton = (Button) findViewById(R.id.exitButton);
         messageList = (ListView) findViewById(R.id.message_list);
 
         arrAdapt = new ChatScreenArrayAdapter(getApplicationContext(), R.layout.message_bubble_right);
@@ -104,6 +112,15 @@ public class ChatScreen extends AppCompatActivity {
                 sendMessage();
             }
         });
+        //when pressing the exit chat button
+        exitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "trying to exit chat: onClick");
+                onBackPressed();
+
+            }
+        });
 
         arrAdapt.registerDataSetObserver(new DataSetObserver() {
             @Override
@@ -115,7 +132,7 @@ public class ChatScreen extends AppCompatActivity {
         });
 
         //receiver mesage
-        ValueEventListener messageListener = new ValueEventListener() {
+        messageListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 retrieveMessage(dataSnapshot);
@@ -140,7 +157,7 @@ public class ChatScreen extends AppCompatActivity {
         {
             MyUser potentialPartner = snap.getValue(MyUser.class);
             //found someone who isn't matched yet
-            if(!newUser.getMatched()&&!potentialPartner.getMatched()&&newUser.getToken()!=potentialPartner.getToken())
+            if(!newUser.getMatched()&&!potentialPartner.getMatched()&&!newUser.getToken().equals(potentialPartner.getToken()))
             {
                 newUser.setPartner(potentialPartner.getToken());
                 newUser.setMatched(true);
@@ -192,9 +209,11 @@ public class ChatScreen extends AppCompatActivity {
             Message m = snap.getValue(Message.class);
             String receiver = m.getReceiver();
             String sender = m.getSender();
-            if(receiver.equals(newUser.getToken())&&!m.getDisplayed())
+            if(receiver.equals(newUser.getToken()) && !m.getDisplayed())
             {
                 String messages = m.getText();
+                if (messages != null && messages.equals(BUMPED))
+                    otherUserEnded();
                 if(messages != null) {
                     m.setSentMessage(false);
                     arrAdapt.add(m);
@@ -241,13 +260,63 @@ public class ChatScreen extends AppCompatActivity {
         AppIndex.AppIndexApi.start(client, getIndexApiAction());
     }
 
+
     @Override
     public void onStop() {
+        bumpOtherUser();
+        deleteChat();
         super.onStop();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
+         //ATTENTION: This was auto-generated to implement the App Indexing API.
+         //See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
+    }
+
+
+
+    @Override
+    public void onBackPressed(){
+        bumpOtherUser();
+        deleteChat();
+        super.onBackPressed();
+    }
+
+
+    private void goToStartChat() {
+        Intent intent = new Intent(this, StartChat.class);
+        startActivity(intent);
+    }
+
+    public void deleteChat() {
+        myDatabase.child("message").child(newUser.getToken()).removeValue();
+        newUser.setMatched(false);
+        newUser.setPartner("Default partner");
+        myDatabase.child("users").child(newUser.getToken()).removeValue();
+        myDatabase.removeEventListener(messageListener);
+        this.finish();
+    }
+
+    public void bumpOtherUser(){
+        Log.d("BUMP",newUser.getPartner());
+        storeMessage(BUMPED);
+    }
+
+    public void otherUserEnded() {
+        int duration = Toast.LENGTH_SHORT;
+        String bumpedMessage = "Other user has ended the chat.";
+        Toast toast = Toast.makeText(getApplicationContext(), bumpedMessage, duration);
+        toast.show();
+        onBackPressed();
+    }
+
+    /*
+     * A fix for an error with bumping another user. Pulled from:
+     * http://stackoverflow.com/questions/7469082/getting-exception-illegalstateexception-can-not-perform-this-action-after-onsa
+     */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("WORKAROUND_FOR_BUG_19917_KEY", "WORKAROUND_FOR_BUG_19917_VALUE");
+        super.onSaveInstanceState(outState);
     }
 }

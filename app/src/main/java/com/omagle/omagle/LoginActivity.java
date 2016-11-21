@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private final String TAG = "Sign_in_activity";
-
+    private boolean success = true;
     /**
      * Id to identity READ_CONTACTS permission request.i
      */
@@ -78,6 +78,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
     private final String LOGIN = "Login Acitivty: ";
+    private String password;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +103,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
+                    //attemptLogin(view);
                     return true;
                 }
                 return false;
@@ -113,11 +115,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onClick(View view) {
                 Boolean success =  false;
-                success = attemptLogin();
-                if (success) {
-                    goToStartChat(view);
-                }
-                else{}
+                email = mEmailView.getText().toString();
+                password = mPasswordView.getText().toString();
+                success = attemptLogin(view);
             }
         });
 
@@ -209,11 +209,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private boolean attemptLogin() {
+    private boolean attemptLogin(final View view) {
         if (mAuthTask != null) {
             return false;
         }
-
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
@@ -226,7 +225,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (password.isEmpty() || !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
@@ -249,6 +248,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             focusView.requestFocus();
             return false;
         } else {
+            final String auth_failed = "Incorrect password";
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -258,12 +258,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             // If sign in fails, display a message to the user. If sign in succeeds
                             // the auth state listener will be notified and logic to handle the
                             // signed in user can be handled in the listener.
-                            /*if (!task.isSuccessful()) {
+                            if (!task.isSuccessful()) {
                                 Log.w(TAG, "signInWithEmail:failed", task.getException());
-                                Toast.makeText(EmailPasswordActivity.this, R.string.auth_failed,
+                                Toast.makeText(LoginActivity.this, auth_failed,
                                         Toast.LENGTH_SHORT).show();
-                            }*/
-
+                            }
+                            else{goToStartChat(view);}
                         }
                     });
         }

@@ -214,7 +214,7 @@ public class ChatScreen extends AppCompatActivity {
                 String messages = m.getText();
                 if (messages != null && messages.equals(BUMPED))
                     otherUserEnded();
-                if(messages != null) {
+                else if(messages != null) {
                     m.setSentMessage(false);
                     arrAdapt.add(m);
                     m.setDisplayed(true);

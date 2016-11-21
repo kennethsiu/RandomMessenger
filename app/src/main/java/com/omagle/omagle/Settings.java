@@ -8,10 +8,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class Settings extends AppCompatActivity {
+
+    private DatabaseReference myDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,11 +26,18 @@ public class Settings extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        myDatabase = FirebaseDatabase.getInstance().getReference();
+
+        EditText nameText = (EditText) findViewById(R.id.nameEdit);
+        EditText majorText = (EditText) findViewById(R.id.majorEdit);
+        EditText ageText = (EditText) findViewById(R.id.ageEdit);
+
         //Added by MinhTuan
         final Button okButton = (Button) findViewById(R.id.okButton);
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                updateDatabaseInfo();
                 goBack(v);
             }
         });
@@ -43,18 +56,19 @@ public class Settings extends AppCompatActivity {
                 {
                     switch(checkedId) {
                         case R.id.Default:
-                                ChatScreen.theme = 0;
+                            ChatScreen.theme = 0;
                             break;
                         case R.id.Christmas:
-                                ChatScreen.theme = 1;
+                            ChatScreen.theme = 1;
                             break;
                         case R.id.Thanksgiving:
-                                ChatScreen.theme = 2;
+                            ChatScreen.theme = 2;
                             break;
                         case R.id.Eye_Bleed:
+                            ChatScreen.theme = 3;
                             break;
                         case R.id.Underwater:
-                                ChatScreen.theme = 4;
+                            ChatScreen.theme = 4;
                             break;
                     }
                 }
@@ -68,33 +82,9 @@ public class Settings extends AppCompatActivity {
         startActivity(OKIntent);
     }
 
-//    public void onRadioButtonClicked(View view) {
-//        // Is the button now checked?
-//        boolean checked = ((RadioButton) view).isChecked();
-//
-//        // Check which radio button was clicked
-//        switch(view.getId()) {
-//            case R.id.Default:
-//                if (checked)
-//                    ChatScreen.theme = 0;
-//                break;
-//            case R.id.Christmas:
-//                if (checked)
-//                    ChatScreen.theme = 1;
-//                break;
-//            case R.id.Thanksgiving:
-//                if (checked)
-//                    ChatScreen.theme = 2;
-//                break;
-//            case R.id.Eye_Bleed:
-//                if (checked)
-//                    ChatScreen.theme = 3;
-//                break;
-//            case R.id.Underwater:
-//                if (checked)
-//                    ChatScreen.theme = 4;
-//                break;
-//        }
-//    }
+    private void updateDatabaseInfo () {
+        myDatabase.child("Profiles");
+    }
+
 }
 

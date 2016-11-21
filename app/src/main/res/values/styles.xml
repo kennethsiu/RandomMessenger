@@ -15,28 +15,18 @@
 
     <style name="DefaultTheme">
         <item name="android:background">#F5F5F5</item>
-        <item name="leftbubble">#FFF176</item>
-        <item name="rightbubble">#0288D1</item>
     </style>
     <style name="ChristmasTheme">
         <item name="android:background">#90CAF9</item>
-        <item name="leftbubble">#1B5E20</item>
-        <item name="rightbubble">#D50000</item>
     </style>
     <style name="ThanksgivingTheme">
         <item name="android:background">#9E9E9E</item>
-        <item name="leftbubble">#FF6D00</item>
-        <item name="rightbubble">#795548</item>
     </style>
     <style name="EyebleedTheme">
         <item name="android:background">#18FFFF</item>
-        <item name="leftbubble">#AA00FF</item>
-        <item name="rightbubble">#76FF03</item>
     </style>
     <style name="UnderwaterTheme">
         <item name="android:background">#607D8B</item>
-        <item name="leftbubble">#1A237E</item>
-        <item name="rightbubble">#01579B</item>
     </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

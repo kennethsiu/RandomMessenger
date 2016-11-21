@@ -3,7 +3,6 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/chat_background"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
@@ -34,7 +33,6 @@
         android:id="@+id/message_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/chat_background"
         android:divider="@null"
         android:layout_below="@id/top_layout_info"
         android:layout_above="@+id/bottom_layout_interface"
@@ -53,7 +51,7 @@
         <!--android:paddingLeft="10dp"-->
         <!--android:paddingRight="10dp"-->
         <!--android:paddingTop="5dp"-->
-        <!--android:background="@drawable/textbox_right"-->
+        <!--android:background="@drawable/textbox_right_default"-->
         <!--android:text="Yup"-->
         <!--android:textColor="#000" />-->
 

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/chat_background">
+    android:background="@color/chat_background_eyebleed">
     <item>
         <shape>
             <stroke
                 android:width="2dp"
-                android:color="@color/chat_background" />
+                android:color="@color/chat_background_eyebleed" />
 
-            <solid android:color="@color/recipient_text_bubble" />
+            <solid android:color="@color/right_bubble_eyebleed" />
 
             <padding
                 android:bottom="7dp"

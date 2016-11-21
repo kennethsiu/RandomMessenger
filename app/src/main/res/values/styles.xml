@@ -13,6 +13,21 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="DefaultTheme">
+        <item name="android:background">#F5F5F5</item>
+    </style>
+    <style name="ChristmasTheme">
+        <item name="android:background">#90CAF9</item>
+    </style>
+    <style name="ThanksgivingTheme">
+        <item name="android:background">#9E9E9E</item>
+    </style>
+    <style name="EyebleedTheme">
+        <item name="android:background">#18FFFF</item>
+    </style>
+    <style name="UnderwaterTheme">
+        <item name="android:background">#607D8B</item>
+    </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

@@ -1,7 +1,6 @@
 package com.omagle.omagle;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,12 +45,31 @@ public class ChatScreenArrayAdapter extends ArrayAdapter<Message> {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         TextView messageText;
         if (message.didMessageSend()) {
-            row = inflater.inflate(R.layout.message_bubble_right, parent, false);
-            messageText = (TextView) row.findViewById(R.id.message_text);
+            row = inflater.inflate(R.layout.message_bubble_right_default, parent, false);
+            switch (ChatScreen.theme){
+                case 1: row = inflater.inflate(R.layout.message_bubble_right_christmas, parent, false); break;
+                case 2: row = inflater.inflate(R.layout.message_bubble_right_thanksgiving, parent, false); break;
+                case 3: row = inflater.inflate(R.layout.message_bubble_right_eyebleed, parent, false); break;
+                case 4: row = inflater.inflate(R.layout.message_bubble_right_underwater, parent, false); break;
+                default: row = inflater.inflate(R.layout.message_bubble_right_default, parent, false); break;
+            }
         }
         else {
-            row = inflater.inflate(R.layout.message_bubble_left, parent, false);
-            messageText = (TextView) row.findViewById(R.id.message_text);
+            switch (ChatScreen.theme){
+                case 1: row = inflater.inflate(R.layout.message_bubble_left_christmas, parent, false); break;
+                case 2: row = inflater.inflate(R.layout.message_bubble_left_thanksgiving, parent, false); break;
+                case 3: row = inflater.inflate(R.layout.message_bubble_left_eyebleed, parent, false); break;
+                case 4: row = inflater.inflate(R.layout.message_bubble_left_underwater, parent, false); break;
+                default: row = inflater.inflate(R.layout.message_bubble_left_default, parent, false); break;
+            }
+        }
+        switch (ChatScreen.theme){
+            case 1: messageText = (TextView) row.findViewById(R.id.message_text_christmas); break;
+            case 2: messageText = (TextView) row.findViewById(R.id.message_text_thanksgiving); break;
+            case 3: messageText = (TextView) row.findViewById(R.id.message_text_eyebleed); break;
+            case 4: messageText = (TextView) row.findViewById(R.id.message_text_underwater); break;
+            default: messageText = (TextView) row.findViewById(R.id.message_text_default); break;
+
         }
         //took out for loop because changed getText to return String instead of List<String>
         String body = message.getText();

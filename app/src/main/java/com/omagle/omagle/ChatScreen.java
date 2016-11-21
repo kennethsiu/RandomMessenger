@@ -303,11 +303,13 @@ public class ChatScreen extends AppCompatActivity {
     }
 
     public void otherUserEnded() {
+        myDatabase.child("message").child(newUser.getToken()).removeValue();
         int duration = Toast.LENGTH_SHORT;
         String bumpedMessage = "Other user has ended the chat.";
         Toast toast = Toast.makeText(getApplicationContext(), bumpedMessage, duration);
         toast.show();
-        onBackPressed();
+        deleteChat();
+        super.onBackPressed();
     }
 
     /*

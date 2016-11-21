@@ -14,5 +14,5 @@
         android:background="@drawable/textbox_left"
         android:maxEms="18"
         android:textColor="@color/recipient_text_color"
-        android:textSize="20sp"/>
+        android:textSize="18sp"/>
 </RelativeLayout>

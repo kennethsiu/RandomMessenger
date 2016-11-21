@@ -24,18 +24,23 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+
 public class SignUp extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private final String TAG = "Sign_Up_activity";
+    private DatabaseReference myDatabase;
 
     private Button signUpButton;
     private EditText email;
     private EditText passw;
     private EditText confPass;
 
-    private String emailRegex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@ucsd.edu)";
+    private String emailRegex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@ucsd.edu";
 
     final String auth_failed = "Failed to create account";
 
@@ -48,15 +53,7 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-       /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
+        myDatabase = FirebaseDatabase.getInstance().getReference();
 
         //Track when the user is signing in or out
         mAuth = FirebaseAuth.getInstance();
@@ -87,7 +84,20 @@ public class SignUp extends AppCompatActivity {
                 String emailStr = email.getText().toString().trim();
                 String passStr = passw.getText().toString().trim();
                 String confPassStr = confPass.getText().toString().trim();
-                createAccount(emailStr, passStr, confPassStr, view);
+                Boolean success = createAccount(emailStr, passStr, confPassStr, view);
+                if(success) {
+                    String str = "";
+                    for (char c : emailStr.toCharArray()) {
+                        if (c == '@')
+                            break;
+                        str = str + c;
+
+                    }
+                    myDatabase.child("Profiles").child(str).child("Name").setValue("John/Jane Doe");
+                    myDatabase.child("Profiles").child(str).child("Age").setValue("21");
+                    myDatabase.child("Profiles").child(str).child("Major").setValue("Undeclared");
+                    myDatabase.child("Profiles").child(str).child("Theme").setValue("Default");
+                }
             }
         });
     }

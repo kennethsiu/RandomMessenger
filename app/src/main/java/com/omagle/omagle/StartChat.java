@@ -32,6 +32,7 @@ public class StartChat extends AppCompatActivity {
     private void signOut(View view) {
         Intent signOutIntent = new Intent(this, LoginActivity.class);
         startActivity(signOutIntent);
+        finish();
     }
 
     private void startChat(View view){

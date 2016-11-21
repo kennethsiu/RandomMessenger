@@ -78,8 +78,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
     private final String LOGIN = "Login Acitivty: ";
-    private String password;
-    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,9 +113,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onClick(View view) {
                 Boolean success =  false;
-                email = mEmailView.getText().toString();
-                password = mPasswordView.getText().toString();
-                success = attemptLogin(view);
+                String email = mEmailView.getText().toString().trim();
+                String password = mPasswordView.getText().toString().trim();
+                success = attemptLogin(email, password, view);
             }
         });
 
@@ -209,7 +207,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private boolean attemptLogin(final View view) {
+    private boolean attemptLogin(String email, String  password, final View view) {
         if (mAuthTask != null) {
             return false;
         }
@@ -218,8 +216,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;

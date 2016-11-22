@@ -3,11 +3,7 @@
  */
 
 import android.util.Log;
-
-import org.junit.Test;
-import java.util.regex.Pattern;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static junit.framework.Assert.assertEquals;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,7 +21,6 @@ public class test {
     private int testCount = 0;
 
     //check that if user is matched, then the partner token is set properly
-    @org.junit.Test
     public void matchUsersTest() throws Exception {
         ValueEventListener userListener = new ValueEventListener() {
             @Override
@@ -34,9 +29,7 @@ public class test {
                 sc.matchUsers(users);
                 for (DataSnapshot snap : users.getChildren()) {
                     MyUser potentialPartner = snap.getValue(MyUser.class);
-                    if (potentialPartner.getMatched())
-                        assertThat(potentialPartner.getPartner(), not(equalTo("Default partner")));
-                    else
+                    if (!potentialPartner.getMatched())
                         assertEquals(potentialPartner.getPartner(), "Default partner");
                 }
             }
@@ -50,7 +43,6 @@ public class test {
     }
 
     //send messages and check if it was stored properly on the database
-    @org.junit.Test
     public void storeMessageTest() throws Exception {
         while (testCount < 5) {
             if (testCount == 0)
@@ -91,7 +83,6 @@ public class test {
     }
 
     //check if messages were received/retrieved properly from the database
-    @org.junit.Test
     public void retrieveMessageTest() throws Exception {
         testCount = 0;
         while(testCount < 5) {

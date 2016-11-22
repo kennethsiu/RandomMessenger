@@ -1,8 +1,8 @@
 package com.omagle.omagle;
 
+
 import android.app.Application;
 import android.test.ApplicationTestCase;
-
 
 /** This is a comment
 =======

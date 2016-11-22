@@ -43,7 +43,7 @@ public class ChatScreen extends AppCompatActivity {
 
     //database related things
     private DatabaseReference myDatabase;
-    MyUser newUser;
+    public MyUser newUser;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -160,7 +160,7 @@ public class ChatScreen extends AppCompatActivity {
     }
 
     //match users from database
-    private boolean matchUsers(DataSnapshot users)
+    public boolean matchUsers(DataSnapshot users)
     {
         Log.d(TAG, "trying to match users");
         for(DataSnapshot snap : users.getChildren())
@@ -183,7 +183,7 @@ public class ChatScreen extends AppCompatActivity {
     }
 
     //store message on the database
-    private void storeMessage(final String texts) {
+    public void storeMessage(final String texts) {
         Log.d(TAG, "trying storing message");
         ValueEventListener messageListener = new ValueEventListener() {
             @Override
@@ -211,14 +211,13 @@ public class ChatScreen extends AppCompatActivity {
         messageDatabase.addListenerForSingleValueEvent(messageListener);
     }
 
-    public void retrieveMessage(DataSnapshot dataSnapshot) {
+    public String retrieveMessage(DataSnapshot dataSnapshot) {
         DataSnapshot users = dataSnapshot.child("message");
         Log.d(TAG, "trying to receive message");
         for (DataSnapshot snap : users.getChildren()) {
             //look through each message and see if it was sent for this user
             Message m = snap.getValue(Message.class);
             String receiver = m.getReceiver();
-            String sender = m.getSender();
             if(receiver.equals(newUser.getToken()) && !m.getDisplayed())
             {
                 String messages = m.getText();
@@ -230,11 +229,12 @@ public class ChatScreen extends AppCompatActivity {
                     m.setDisplayed(true);
                     myDatabase.child("message").child(receiver).setValue(m);
                     Log.d(TAG,"retrieved message");
+                    return m.getText();
                 }
             }
         }
+        return "Nothing";
     }
-
 
     private boolean sendMessage() {
         Message message = new Message(messageText.getText().toString().trim());

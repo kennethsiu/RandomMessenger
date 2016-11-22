@@ -37,6 +37,8 @@ public class ChatScreen extends AppCompatActivity {
     private ListView messageList;
     private ValueEventListener messageListener;
 
+    protected static short theme = 0;
+
     private static final String BUMPED = "kjasdjf1290alks9124klalksdklf91239lkaskldf9012lkmzmqp102";
 
     //database related things
@@ -53,6 +55,14 @@ public class ChatScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        switch (theme){
+            case 1: setTheme(R.style.ChristmasTheme); break;
+            case 2: setTheme(R.style.ThanksgivingTheme); break;
+            case 3: setTheme(R.style.EyebleedTheme); break;
+            case 4: setTheme(R.style.UnderwaterTheme); break;
+            default: setTheme(R.style.DefaultTheme); break;
+
+        }
         //database reference
         myDatabase = FirebaseDatabase.getInstance().getReference();
         //get token and add new user to database
@@ -83,7 +93,7 @@ public class ChatScreen extends AppCompatActivity {
         exitButton = (Button) findViewById(R.id.exitButton);
         messageList = (ListView) findViewById(R.id.message_list);
 
-        arrAdapt = new ChatScreenArrayAdapter(getApplicationContext(), R.layout.message_bubble_right);
+        arrAdapt = new ChatScreenArrayAdapter(getApplicationContext(), R.layout.message_bubble_right_default);
         messageList.setAdapter(arrAdapt);
         messageList.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
 

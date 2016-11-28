@@ -323,6 +323,7 @@ public class ChatScreen extends AppCompatActivity {
         newUser.setPartner("Default partner");
         myDatabase.child("users").child(newUser.getToken()).removeValue();
         myDatabase.removeEventListener(messageListener);
+        firstMessage = true;
         this.finish();
     }
 

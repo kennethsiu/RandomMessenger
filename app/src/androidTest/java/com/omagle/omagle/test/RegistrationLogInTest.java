@@ -253,12 +253,7 @@ public class RegistrationLogInTest extends ActivityInstrumentationTestCase2<Logi
 		solo.sleep(878);
         //Click on asdfasdf
 		solo.clickOnView(solo.getView(com.omagle.omagle.R.id.majorEdit, 2));
-<<<<<<< HEAD
-        /*Deleted some stuff that didnt compile. Refer to group chat*/
-		//Sleep for 2145 milliseconds
-=======
         //Sleep for 2145 milliseconds
->>>>>>> 05e5aa8219402243a16bcf3be0e78d246d09c291
 		solo.sleep(2145);
         //Enter the text: 'asdfasdf'
 		solo.clearEditText((android.widget.EditText) solo.getView(com.omagle.omagle.R.id.majorEdit, 2));

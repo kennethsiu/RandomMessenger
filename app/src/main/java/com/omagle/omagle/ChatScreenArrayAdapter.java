@@ -12,6 +12,9 @@ import java.util.List;
 
 /**
  * Created by Bastard on 10/30/16.
+ *
+ * Started from tutorial from "https://trinitytuts.com/simple-chat-application-using-listview-in-android/"
+ * to create chat UI, and evolved over time
  */
 
 public class ChatScreenArrayAdapter extends ArrayAdapter<Message> {

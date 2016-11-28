@@ -172,4 +172,30 @@
         android:layout_marginTop="29dp"
         android:layout_below="@+id/Age"
         android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:id="@+id/avatar_image"
+        android:src="@drawable/default_avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ThemeButtons"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Pick_a_Theme"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pick your avatar"
+            android:layout_weight="1"/>
+        <Spinner
+            android:id="@+id/avatar_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 </RelativeLayout>

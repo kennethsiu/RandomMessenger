@@ -1,18 +1,21 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    compileSdkVersion 25
+    buildToolsVersion "24.0.3"
 
     defaultConfig {
         applicationId "com.omagle.omagle"
         minSdkVersion 15
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         // Enabling multidex support.
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    aaptOptions {
+        cruncherEnabled = false
     }
     buildTypes {
         release {
@@ -30,14 +33,14 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     // Required -- JUnit 4 framework
-    androidTestCompile 'com.android.support:support-annotations:24.2.1'
+    androidTestCompile 'com.android.support:support-annotations:25.0.1'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.support:design:24.2.1'
+    compile 'com.android.support:appcompat-v7:25.0.1'
+    compile 'com.android.support:design:25.0.1'
     //testCompile 'junit:junit:4.12'
     //User authentication
     compile 'com.google.firebase:firebase-auth:9.8.0'
@@ -61,7 +64,7 @@ dependencies {
     compile 'com.google.android.gms:play-services:9.8.0'
 
 
-    compile 'com.android.support:multidex:1.0.0'
+    compile 'com.android.support:multidex:1.0.1'
 
 }
 // Add to the bottom of the file Michael is a poopy head

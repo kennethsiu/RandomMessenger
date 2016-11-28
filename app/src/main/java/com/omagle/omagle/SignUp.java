@@ -115,6 +115,12 @@ public class SignUp extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //Go to the start chat page
+    private void goToSettings(View view) {
+        Intent intent = new Intent(this, Settings.class);
+        startActivity(intent);
+    }
+
     //Do necessary checks to see if email and password are correct, then create account
     public boolean createAccount(String emailStr, String passStr, String confPassStr, final View view) {
 
@@ -160,7 +166,7 @@ public class SignUp extends AppCompatActivity {
                                 Toast.makeText(SignUp.this, auth_failed,
                                         Toast.LENGTH_SHORT).show();
                             }
-                            else {goToStartChat(view);}
+                            else {goToSettings(view);}
                         }
                     });
             return true;

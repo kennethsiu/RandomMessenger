@@ -20,6 +20,18 @@
     <string name="list_view">List View</string>
     <string name="sample_message">Goodbye World</string>
 
+    <string-array name="avatar_options">
+        <item>UCSD 1</item>
+        <item>UCSD 2</item>
+        <item>Triton</item>
+        <item>Warren</item>
+        <item>Marshall</item>
+        <item>Revelle</item>
+        <item>Sixth</item>
+        <item>ERC</item>
+        <item>Muir</item>
+    </string-array>
+
     <string name="send_button">
         "Send"
     </string>

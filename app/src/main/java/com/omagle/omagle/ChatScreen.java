@@ -57,7 +57,6 @@ public class ChatScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_screen);
 
         switch (theme){
             case 1:
@@ -72,7 +71,8 @@ public class ChatScreen extends AppCompatActivity {
                 setTheme(R.style.DefaultTheme); break;
 
         }
-
+        setContentView(R.layout.activity_chat_screen);
+        
         //database reference
         myDatabase = FirebaseDatabase.getInstance().getReference();
         //get token and add new user to database

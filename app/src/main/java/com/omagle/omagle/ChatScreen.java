@@ -72,7 +72,7 @@ public class ChatScreen extends AppCompatActivity {
 
         }
         setContentView(R.layout.activity_chat_screen);
-        
+
         //database reference
         myDatabase = FirebaseDatabase.getInstance().getReference();
         //get token and add new user to database
@@ -245,6 +245,7 @@ public class ChatScreen extends AppCompatActivity {
                         ImageView otherAvatar = (ImageView) findViewById(R.id.receiverAvatar);
                         DataSnapshot otherUser = dataSnapshot.child("users").child(m.getSender());
                         MyUser other = otherUser.getValue(MyUser.class);
+                        Log.d(TAG,other.getAvatar());
                         changeAvatar(otherAvatar,other.getAvatar());
                     }
                     m.setSentMessage(false);
@@ -354,41 +355,33 @@ public class ChatScreen extends AppCompatActivity {
     }
 
     public void changeAvatar(ImageView imageView, String choice){
-        switch (avatar){
+        switch (choice){
             case "UCSD 1":
-                newUser.setAvatar(choice);
                 imageView.setImageResource(R.drawable.default_avatar);
                 break;
             case "UCSD 2":
-                newUser.setAvatar(choice);
                 imageView.setImageResource(R.drawable.ucsd_avatar2);
                 break;
             case "Warren":
-                newUser.setAvatar(choice);
                 imageView.setImageResource(R.drawable.warren_avatar);
                 break;
             case "Marshall":
-                newUser.setAvatar(choice);
                 imageView.setImageResource(R.drawable.marshall_avatar);
                 break;
             case "Muir":
-                newUser.setAvatar(choice);
                 imageView.setImageResource(R.drawable.muir_avatar);
                 break;
             case "Revelle":
-                newUser.setAvatar(choice);
                 imageView.setImageResource(R.drawable.revelle_avatar);
                 break;
             case "ERC":
-                newUser.setAvatar(choice);
                 imageView.setImageResource(R.drawable.erc_avatar);
                 break;
             case "Triton":
-                newUser.setAvatar(choice);
+                Log.d(TAG,"did it switch correctly");
                 imageView.setImageResource(R.drawable.triton_avatar);
                 break;
             case "Sixth":
-                newUser.setAvatar(choice);
                 imageView.setImageResource(R.drawable.sixth_avatar);
                 break;
         }

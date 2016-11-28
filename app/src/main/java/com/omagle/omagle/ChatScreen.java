@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.util.Log;
 import android.widget.Toast;
@@ -38,6 +39,8 @@ public class ChatScreen extends AppCompatActivity {
     private ValueEventListener messageListener;
 
     protected static short theme = 0;
+    protected static String avatar = "UCSD 1";
+    private boolean firstMessage = true;
 
     private static final String BUMPED = "kjasdjf1290alks9124klalksdklf91239lkaskldf9012lkmzmqp102";
 
@@ -63,11 +66,17 @@ public class ChatScreen extends AppCompatActivity {
             default: setTheme(R.style.DefaultTheme); break;
 
         }
+
         //database reference
         myDatabase = FirebaseDatabase.getInstance().getReference();
         //get token and add new user to database
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         newUser = new MyUser(refreshedToken);
+
+        // Get the avatar
+        ImageView imageView = (ImageView) findViewById(R.id.senderAvatar);
+        changeAvatar(imageView, avatar);
+
         myDatabase.child("users").child(newUser.getToken()).setValue(newUser);
 
         //match new user with a partner
@@ -224,6 +233,13 @@ public class ChatScreen extends AppCompatActivity {
                 if (messages != null && messages.equals(BUMPED))
                     otherUserEnded();
                 else if(messages != null) {
+                    if (firstMessage){
+                        firstMessage = false;
+                        ImageView otherAvatar = (ImageView) findViewById(R.id.receiverAvatar);
+                        DataSnapshot otherUser = dataSnapshot.child("users").child(m.getSender());
+                        MyUser other = otherUser.getValue(MyUser.class);
+                        changeAvatar(otherAvatar,other.getAvatar());
+                    }
                     m.setSentMessage(false);
                     arrAdapt.add(m);
                     m.setDisplayed(true);
@@ -329,6 +345,46 @@ public class ChatScreen extends AppCompatActivity {
         super.onBackPressed();
     }
 
+    public void changeAvatar(ImageView imageView, String choice){
+        switch (avatar){
+            case "UCSD 1":
+                newUser.setAvatar(avatar);
+                imageView.setImageResource(R.drawable.default_avatar);
+                break;
+            case "UCSD 2":
+                newUser.setAvatar(avatar);
+                imageView.setImageResource(R.drawable.ucsd_avatar2);
+                break;
+            case "Warren":
+                newUser.setAvatar(avatar);
+                imageView.setImageResource(R.drawable.warren_avatar);
+                break;
+            case "Marshall":
+                newUser.setAvatar(avatar);
+                imageView.setImageResource(R.drawable.marshall_avatar);
+                break;
+            case "Muir":
+                newUser.setAvatar(avatar);
+                imageView.setImageResource(R.drawable.muir_avatar);
+                break;
+            case "Revelle":
+                newUser.setAvatar(avatar);
+                imageView.setImageResource(R.drawable.revelle_avatar);
+                break;
+            case "ERC":
+                newUser.setAvatar(avatar);
+                imageView.setImageResource(R.drawable.erc_avatar);
+                break;
+            case "Triton":
+                newUser.setAvatar(avatar);
+                imageView.setImageResource(R.drawable.triton_avatar);
+                break;
+            case "Sixth":
+                newUser.setAvatar(avatar);
+                imageView.setImageResource(R.drawable.sixth_avatar);
+                break;
+        }
+    }
     /*
      * A fix for an error with bumping another user. Pulled from:
      * http://stackoverflow.com/questions/7469082/getting-exception-illegalstateexception-can-not-perform-this-action-after-onsa

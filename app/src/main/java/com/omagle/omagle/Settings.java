@@ -61,40 +61,40 @@ public class Settings extends AppCompatActivity {
                                        int pos, long id) {
                 String avatar = parent.getItemAtPosition(pos).toString();
                 switch (avatar) {
-                    case "UCSD #1":
-                        //set global variable for avatar
+                    case "UCSD 1":
+                        ChatScreen.avatar = avatar;
                         avImage.setImageResource(R.drawable.default_avatar);
                         break;
-                    case "UCSD #2":
-                        //set global variable for avatar
+                    case "UCSD 2":
+                        ChatScreen.avatar = avatar;
                         avImage.setImageResource(R.drawable.ucsd_avatar2);
                         break;
                     case "Warren":
-                        //set global variable for avatar
+                        ChatScreen.avatar = avatar;
                         avImage.setImageResource(R.drawable.warren_avatar);
                         break;
                     case "Marshall":
-                        //set global variable for avatar
+                        ChatScreen.avatar = avatar;
                         avImage.setImageResource(R.drawable.marshall_avatar);
                         break;
                     case "Muir":
-                        //set global variable for avatar
+                        ChatScreen.avatar = avatar;
                         avImage.setImageResource(R.drawable.muir_avatar);
                         break;
                     case "Revelle":
-                        //set global variable for avatar
+                        ChatScreen.avatar = avatar;
                         avImage.setImageResource(R.drawable.revelle_avatar);
                         break;
                     case "ERC":
-                        //set global variable for avatar
+                        ChatScreen.avatar = avatar;
                         avImage.setImageResource(R.drawable.erc_avatar);
                         break;
                     case "Triton":
-                        //set global variable for avatar
+                        ChatScreen.avatar = avatar;
                         avImage.setImageResource(R.drawable.triton_avatar);
                         break;
                     case "Sixth":
-                        //set global variable for avatar
+                        ChatScreen.avatar = avatar;
                         avImage.setImageResource(R.drawable.sixth_avatar);
                         break;
                 }

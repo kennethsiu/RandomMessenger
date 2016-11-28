@@ -57,13 +57,19 @@ public class ChatScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_chat_screen);
 
         switch (theme){
-            case 1: setTheme(R.style.ChristmasTheme); break;
-            case 2: setTheme(R.style.ThanksgivingTheme); break;
-            case 3: setTheme(R.style.EyebleedTheme); break;
-            case 4: setTheme(R.style.UnderwaterTheme); break;
-            default: setTheme(R.style.DefaultTheme); break;
+            case 1:
+                setTheme(R.style.ChristmasTheme); break;
+            case 2:
+                setTheme(R.style.ThanksgivingTheme); break;
+            case 3:
+                setTheme(R.style.EyebleedTheme); break;
+            case 4:
+                setTheme(R.style.UnderwaterTheme); break;
+            default:
+                setTheme(R.style.DefaultTheme); break;
 
         }
 
@@ -75,6 +81,8 @@ public class ChatScreen extends AppCompatActivity {
 
         // Get the avatar
         ImageView imageView = (ImageView) findViewById(R.id.senderAvatar);
+        Log.d(TAG, imageView.toString());
+        newUser.setAvatar(avatar);
         changeAvatar(imageView, avatar);
 
         myDatabase.child("users").child(newUser.getToken()).setValue(newUser);
@@ -96,7 +104,6 @@ public class ChatScreen extends AppCompatActivity {
             }
         };
         myDatabase.addListenerForSingleValueEvent(userListener);
-        setContentView(R.layout.activity_chat_screen);
 
         sendButton = (Button) findViewById(R.id.sendButton);
         exitButton = (Button) findViewById(R.id.exitButton);
@@ -349,39 +356,39 @@ public class ChatScreen extends AppCompatActivity {
     public void changeAvatar(ImageView imageView, String choice){
         switch (avatar){
             case "UCSD 1":
-                newUser.setAvatar(avatar);
+                newUser.setAvatar(choice);
                 imageView.setImageResource(R.drawable.default_avatar);
                 break;
             case "UCSD 2":
-                newUser.setAvatar(avatar);
+                newUser.setAvatar(choice);
                 imageView.setImageResource(R.drawable.ucsd_avatar2);
                 break;
             case "Warren":
-                newUser.setAvatar(avatar);
+                newUser.setAvatar(choice);
                 imageView.setImageResource(R.drawable.warren_avatar);
                 break;
             case "Marshall":
-                newUser.setAvatar(avatar);
+                newUser.setAvatar(choice);
                 imageView.setImageResource(R.drawable.marshall_avatar);
                 break;
             case "Muir":
-                newUser.setAvatar(avatar);
+                newUser.setAvatar(choice);
                 imageView.setImageResource(R.drawable.muir_avatar);
                 break;
             case "Revelle":
-                newUser.setAvatar(avatar);
+                newUser.setAvatar(choice);
                 imageView.setImageResource(R.drawable.revelle_avatar);
                 break;
             case "ERC":
-                newUser.setAvatar(avatar);
+                newUser.setAvatar(choice);
                 imageView.setImageResource(R.drawable.erc_avatar);
                 break;
             case "Triton":
-                newUser.setAvatar(avatar);
+                newUser.setAvatar(choice);
                 imageView.setImageResource(R.drawable.triton_avatar);
                 break;
             case "Sixth":
-                newUser.setAvatar(avatar);
+                newUser.setAvatar(choice);
                 imageView.setImageResource(R.drawable.sixth_avatar);
                 break;
         }

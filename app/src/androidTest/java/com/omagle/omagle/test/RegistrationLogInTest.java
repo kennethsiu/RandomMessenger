@@ -253,10 +253,6 @@ public class RegistrationLogInTest extends ActivityInstrumentationTestCase2<Logi
 		solo.sleep(878);
         //Click on asdfasdf
 		solo.clickOnView(solo.getView(com.omagle.omagle.R.id.majorEdit, 2));
-        //Sleep for 2065 milliseconds
-		solo.sleep(2065);
-        //Assert that: 'InsertionHandleView' is shown
-		assertTrue("'InsertionHandleView' is not shown!", solo.waitForView(solo.getView(android.widget.Editor$InsertionHandleView.class, 0)));
         //Sleep for 2145 milliseconds
 		solo.sleep(2145);
         //Enter the text: 'asdfasdf'

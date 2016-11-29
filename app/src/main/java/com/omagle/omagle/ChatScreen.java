@@ -43,10 +43,12 @@ public class ChatScreen extends AppCompatActivity {
     private boolean firstMessage = true;
 
     private static final String BUMPED = "kjasdjf1290alks9124klalksdklf91239lkaskldf9012lkmzmqp102";
+    private static final String MATCHED = "oiawer12041241203klasdklasmdklzxmvasldkflasdfamfzlkfq";
 
     //database related things
     private DatabaseReference myDatabase;
     public MyUser newUser;
+    public MyUser partner;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -192,6 +194,8 @@ public class ChatScreen extends AppCompatActivity {
                 myDatabase.child("users").child(newUser.getToken()).setValue(newUser);
                 myDatabase.child("users").child(potentialPartner.getToken()).setValue(potentialPartner);
                 Log.d(TAG, "matched users");
+                storeMessage(MATCHED);
+                partner = potentialPartner;
                 return true;
             }
         }
@@ -240,13 +244,19 @@ public class ChatScreen extends AppCompatActivity {
                 if (messages != null && messages.equals(BUMPED))
                     otherUserEnded();
                 else if(messages != null) {
-                    if (firstMessage){
+                    if (messages.equals(MATCHED)&&firstMessage){
                         firstMessage = false;
                         ImageView otherAvatar = (ImageView) findViewById(R.id.receiverAvatar);
                         DataSnapshot otherUser = dataSnapshot.child("users").child(m.getSender());
-                        MyUser other = otherUser.getValue(MyUser.class);
-                        Log.d(TAG,other.getAvatar());
-                        changeAvatar(otherAvatar,other.getAvatar());
+                        partner = otherUser.getValue(MyUser.class);
+                        partner.setMatched(true);
+                        newUser.setPartner(partner.getToken());
+                        newUser.setMatched(true);
+                        Log.d(TAG,partner.getAvatar());
+                        changeAvatar(otherAvatar,partner.getAvatar());
+                        myDatabase.child("message").child(newUser.getToken()).removeValue();
+                        String pFound = "Chat Partner Found";
+                        makeToast(pFound);
                     }
                     m.setSentMessage(false);
                     arrAdapt.add(m);
@@ -260,6 +270,7 @@ public class ChatScreen extends AppCompatActivity {
         return "Nothing";
     }
 
+    /* Populate UI with sent message */
     private boolean sendMessage() {
         Message message = new Message(messageText.getText().toString().trim());
         message.setSentMessage(true);
@@ -335,25 +346,28 @@ public class ChatScreen extends AppCompatActivity {
         this.finish();
     }
 
-    /*
-         * A fix for an error with bumping another user. Pulled from:
-         * http://stackoverflow.com/questions/7469082/getting-exception-illegalstateexception-can-not-perform-this-action-after-onsa
-         */
+    /* Force other user to exit chat when you exit */
     public void bumpOtherUser(){
         Log.d("BUMP",newUser.getPartner());
         storeMessage(BUMPED);
     }
 
+    /* End your chat if the other user ended the chat */
     public void otherUserEnded() {
         myDatabase.child("message").child(newUser.getToken()).removeValue();
-        int duration = Toast.LENGTH_SHORT;
         String bumpedMessage = "Other user has ended the chat.";
-        Toast toast = Toast.makeText(getApplicationContext(), bumpedMessage, duration);
-        toast.show();
+        makeToast(bumpedMessage);
         deleteChat();
         super.onBackPressed();
     }
 
+    public void makeToast(String m) {
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(getApplicationContext(), m, duration);
+        toast.show();
+    }
+
+    /* Update the avatar with the given choice */
     public void changeAvatar(ImageView imageView, String choice){
         switch (choice){
             case "UCSD 1":

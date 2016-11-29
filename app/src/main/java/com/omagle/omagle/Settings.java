@@ -19,10 +19,18 @@ import android.widget.SpinnerAdapter;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+
 
 public class Settings extends AppCompatActivity {
 
     private DatabaseReference myDatabase;
+    private String avt;
+    private String them;
+    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +41,39 @@ public class Settings extends AppCompatActivity {
 
         myDatabase = FirebaseDatabase.getInstance().getReference();
 
-        EditText nameText = (EditText) findViewById(R.id.nameEdit);
-        EditText majorText = (EditText) findViewById(R.id.majorEdit);
-        EditText ageText = (EditText) findViewById(R.id.ageEdit);
+        //String userId = firebase.auth().currentUser.uid;
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        userID = user.getUid();
+        avt = myDatabase.child("Profiles").child(userID).child("Avatar").getKey();
+        them = myDatabase.child("Profiles").child(userID).child("Theme").getKey();
+
+        //The following three lines are for a feature that was scrapped.
+        //EditText nameText = (EditText) findViewById(R.id.nameEdit);
+        //EditText majorText = (EditText) findViewById(R.id.majorEdit);
+        //EditText ageText = (EditText) findViewById(R.id.ageEdit);
+
+        //Figure out which radio button needs to be checked when the settings page is opened.
+        RadioButton toCheck = (RadioButton) findViewById(R.id.Default);
+        switch(them) {
+            case "Default":
+                toCheck = (RadioButton) findViewById(R.id.Default);
+
+            case "Christmas":
+                toCheck = (RadioButton) findViewById(R.id.Christmas);
+
+            case "Thanksgiving":
+                toCheck = (RadioButton) findViewById(R.id.Thanksgiving);
+
+            case "Underwater":
+                toCheck = (RadioButton) findViewById(R.id.Underwater);
+
+            case "Eye_Bleed":
+                toCheck = (RadioButton) findViewById(R.id.Eye_Bleed);
+        }
+
+
+        toCheck.setChecked(true);
+
         final ImageView avImage = (ImageView) findViewById(R.id.avatar_image);
 
         //Added by MinhTuan
@@ -65,6 +103,7 @@ public class Settings extends AppCompatActivity {
                     case "UCSD 1":
                         ChatScreen.avatar = avatar;
                         avImage.setImageResource(R.drawable.default_avatar);
+
                         break;
                     case "UCSD 2":
                         ChatScreen.avatar = avatar;
@@ -146,7 +185,11 @@ public class Settings extends AppCompatActivity {
     }
 
     private void updateDatabaseInfo () {
-        myDatabase.child("Profiles");
+
+        myDatabase.child("Profiles").child(userID).child("Theme").removeValue();
+        myDatabase.child("Profiles").child(userID).child("Theme").setValue(them);
+        myDatabase.child("Profiles").child(userID).child("Avatar").removeValue();
+        myDatabase.child("Profiles").child(userID).child("Avatar").setValue(avt);
     }
 
 }

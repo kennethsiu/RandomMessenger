@@ -85,18 +85,22 @@ public class SignUp extends AppCompatActivity {
                 String passStr = passw.getText().toString().trim();
                 String confPassStr = confPass.getText().toString().trim();
                 Boolean success = createAccount(emailStr, passStr, confPassStr, view);
+                String userID;
                 if(success) {
-                    String str = "";
-                    for (char c : emailStr.toCharArray()) {
-                        if (c == '@')
-                            break;
-                        str = str + c;
+                    userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    myDatabase.child("Profiles").child(userID).child("Theme").setValue("Default");
+                    myDatabase.child("Profiles").child(userID).child("Avatar").setValue("UCSD 1");
+                    //String str = "";
+                    //for (char c : emailStr.toCharArray()) {
+                     //   if (c == '@')
+                     //       break;
+                     //   str = str + c;
 
-                    }
-                    myDatabase.child("Profiles").child(str).child("Name").setValue("John/Jane Doe");
-                    myDatabase.child("Profiles").child(str).child("Age").setValue("21");
-                    myDatabase.child("Profiles").child(str).child("Major").setValue("Undeclared");
-                    myDatabase.child("Profiles").child(str).child("Theme").setValue("Default");
+                   // }
+                    //myDatabase.child("Profiles").child(str).child("Name").setValue("John/Jane Doe");
+                    //myDatabase.child("Profiles").child(str).child("Age").setValue("21");
+                    //myDatabase.child("Profiles").child(str).child("Major").setValue("Undeclared");
+                    //myDatabase.child("Profiles").child(str).child("Theme").setValue("Default");
                 }
             }
         });

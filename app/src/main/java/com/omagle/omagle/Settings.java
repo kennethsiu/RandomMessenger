@@ -54,6 +54,7 @@ public class Settings extends AppCompatActivity {
 
         //Figure out which radio button needs to be checked when the settings page is opened.
         RadioButton toCheck = (RadioButton) findViewById(R.id.Default);
+
         switch(them) {
             case "Default":
                 toCheck = (RadioButton) findViewById(R.id.Default);
@@ -71,6 +72,45 @@ public class Settings extends AppCompatActivity {
                 toCheck = (RadioButton) findViewById(R.id.Eye_Bleed);
         }
 
+        switch(avt) {
+            case "UCSD 1":
+                ChatScreen.avatar = avatar;
+                avImage.setImageResource(R.drawable.default_avatar);
+
+                break;
+            case "UCSD 2":
+                ChatScreen.avatar = avatar;
+                avImage.setImageResource(R.drawable.ucsd_avatar2);
+                break;
+            case "Warren":
+                ChatScreen.avatar = avatar;
+                avImage.setImageResource(R.drawable.warren_avatar);
+                break;
+            case "Marshall":
+                ChatScreen.avatar = avatar;
+                avImage.setImageResource(R.drawable.marshall_avatar);
+                break;
+            case "Muir":
+                ChatScreen.avatar = avatar;
+                avImage.setImageResource(R.drawable.muir_avatar);
+                break;
+            case "Revelle":
+                ChatScreen.avatar = avatar;
+                avImage.setImageResource(R.drawable.revelle_avatar);
+                break;
+            case "ERC":
+                ChatScreen.avatar = avatar;
+                avImage.setImageResource(R.drawable.erc_avatar);
+                break;
+            case "Triton":
+                ChatScreen.avatar = avatar;
+                avImage.setImageResource(R.drawable.triton_avatar);
+                break;
+            case "Sixth":
+                ChatScreen.avatar = avatar;
+                avImage.setImageResource(R.drawable.sixth_avatar);
+                break;
+        }
 
         toCheck.setChecked(true);
 

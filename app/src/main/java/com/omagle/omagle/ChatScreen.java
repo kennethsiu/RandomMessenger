@@ -44,6 +44,8 @@ public class ChatScreen extends AppCompatActivity {
 
     private static final String BUMPED = "kjasdjf1290alks9124klalksdklf91239lkaskldf9012lkmzmqp102";
     private static final String MATCHED = "oiawer12041241203klasdklasmdklzxmvasldkflasdfamfzlkfq";
+    private static final String pFound = "Chat Partner Found";
+
 
     //database related things
     private DatabaseReference myDatabase;
@@ -198,6 +200,7 @@ public class ChatScreen extends AppCompatActivity {
                 partner = potentialPartner;
                 ImageView otherAvatar = (ImageView) findViewById(R.id.receiverAvatar);
                 changeAvatar(otherAvatar,partner.getAvatar());
+                makeToast(pFound);
                 return true;
             }
         }
@@ -257,7 +260,6 @@ public class ChatScreen extends AppCompatActivity {
                         Log.d(TAG,partner.getAvatar());
                         changeAvatar(otherAvatar,partner.getAvatar());
                         myDatabase.child("message").child(newUser.getToken()).removeValue();
-                        String pFound = "Chat Partner Found";
                         makeToast(pFound);
                         return m.getText();
                     }

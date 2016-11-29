@@ -24,7 +24,7 @@
             <!--android:textSize="16sp"/>-->
         <ImageView
             android:id="@+id/receiverAvatar"
-            android:src="@drawable/loading_avatar"
+            android:src="@drawable/unmatched_avatar"
             android:layout_width="66dp"
             android:layout_height="58dp" />
         <Button

@@ -196,6 +196,8 @@ public class ChatScreen extends AppCompatActivity {
                 Log.d(TAG, "matched users");
                 storeMessage(MATCHED);
                 partner = potentialPartner;
+                ImageView otherAvatar = (ImageView) findViewById(R.id.receiverAvatar);
+                changeAvatar(otherAvatar,partner.getAvatar());
                 return true;
             }
         }
@@ -257,6 +259,7 @@ public class ChatScreen extends AppCompatActivity {
                         myDatabase.child("message").child(newUser.getToken()).removeValue();
                         String pFound = "Chat Partner Found";
                         makeToast(pFound);
+                        return m.getText();
                     }
                     m.setSentMessage(false);
                     arrAdapt.add(m);

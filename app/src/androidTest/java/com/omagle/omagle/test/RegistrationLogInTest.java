@@ -236,39 +236,39 @@ public class RegistrationLogInTest extends ActivityInstrumentationTestCase2<Logi
         //Sleep for 2223 milliseconds
 		solo.sleep(2223);
         //Enter the text: 'asdfasd'
-		solo.clearEditText((android.widget.EditText) solo.getView(com.omagle.omagle.R.id.nameEdit, 2));
-		solo.enterText((android.widget.EditText) solo.getView(com.omagle.omagle.R.id.nameEdit, 2), "asdfasd");
+		//solo.clearEditText((android.widget.EditText) solo.getView(com.omagle.omagle.R.id.nameEdit, 2));
+		//solo.enterText((android.widget.EditText) solo.getView(com.omagle.omagle.R.id.nameEdit, 2), "asdfasd");
         //Sleep for 531 milliseconds
 		solo.sleep(531);
         //Click on Empty Text View
-		solo.clickOnView(solo.getView(com.omagle.omagle.R.id.majorEdit, 2));
+		//solo.clickOnView(solo.getView(com.omagle.omagle.R.id.majorEdit, 2));
         //Enter the text: 'asdfasdf'
-		solo.clearEditText((android.widget.EditText) solo.getView(com.omagle.omagle.R.id.majorEdit, 2));
-		solo.enterText((android.widget.EditText) solo.getView(com.omagle.omagle.R.id.majorEdit, 2), "asdfasdf");
+		//solo.clearEditText((android.widget.EditText) solo.getView(com.omagle.omagle.R.id.majorEdit, 2));
+		//solo.enterText((android.widget.EditText) solo.getView(com.omagle.omagle.R.id.majorEdit, 2), "asdfasdf");
         //Sleep for 746 milliseconds
 		solo.sleep(746);
         //Assert that: 'Major' is shown
-		assertTrue("'Major' is not shown!", solo.waitForView(solo.getView(com.omagle.omagle.R.id.Major, 2)));
+		//assertTrue("'Major' is not shown!", solo.waitForView(solo.getView(com.omagle.omagle.R.id.Major, 2)));
         //Sleep for 878 milliseconds
 		solo.sleep(878);
         //Click on asdfasdf
-		solo.clickOnView(solo.getView(com.omagle.omagle.R.id.majorEdit, 2));
+		//solo.clickOnView(solo.getView(com.omagle.omagle.R.id.majorEdit, 2));
         //Sleep for 2145 milliseconds
 		solo.sleep(2145);
         //Enter the text: 'asdfasdf'
-		solo.clearEditText((android.widget.EditText) solo.getView(com.omagle.omagle.R.id.majorEdit, 2));
-		solo.enterText((android.widget.EditText) solo.getView(com.omagle.omagle.R.id.majorEdit, 2), "asdfasdf");
+		//solo.clearEditText((android.widget.EditText) solo.getView(com.omagle.omagle.R.id.majorEdit, 2));
+		//solo.enterText((android.widget.EditText) solo.getView(com.omagle.omagle.R.id.majorEdit, 2), "asdfasdf");
         //Sleep for 1393 milliseconds
 		solo.sleep(1393);
         //Click on Empty Text View
-		solo.clickOnView(solo.getView(com.omagle.omagle.R.id.ageEdit, 2));
+		//solo.clickOnView(solo.getView(com.omagle.omagle.R.id.ageEdit, 2));
         //Sleep for 1110 milliseconds
 		solo.sleep(1110);
         //Enter the text: '132'
-		solo.clearEditText((android.widget.EditText) solo.getView(com.omagle.omagle.R.id.ageEdit, 2));
-		solo.enterText((android.widget.EditText) solo.getView(com.omagle.omagle.R.id.ageEdit, 2), "132");
+		//solo.clearEditText((android.widget.EditText) solo.getView(com.omagle.omagle.R.id.ageEdit, 2));
+		//solo.enterText((android.widget.EditText) solo.getView(com.omagle.omagle.R.id.ageEdit, 2), "132");
         //Assert that: 'Major' is shown
-		assertTrue("'Major' is not shown!", solo.waitForView(solo.getView(com.omagle.omagle.R.id.Major, 2)));
+		//assertTrue("'Major' is not shown!", solo.waitForView(solo.getView(com.omagle.omagle.R.id.Major, 2)));
         //Sleep for 2141 milliseconds
 		solo.sleep(2141);
         //Click on OK

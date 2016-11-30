@@ -273,5 +273,6 @@
     <orderEntry type="library" exported="" name="play-services-places-9.8.0" level="project" />
     <orderEntry type="library" exported="" name="mediarouter-v7-24.0.0" level="project" />
     <orderEntry type="library" exported="" name="firebase-crash-9.8.0" level="project" />
+    <orderEntry type="library" exported="" name="android-android-25" level="project" />
   </component>
 </module>

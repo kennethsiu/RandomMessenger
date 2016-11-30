@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private final String TAG = "Sign_in_activity";
-    private boolean success = true;
+    //private boolean success = true;
     /**
      * Id to identity READ_CONTACTS permission request.i
      */
@@ -132,6 +132,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
 
         //Track when user is signing in and out
+        //Following pulled from Firebase tutorial at https://firebase.google.com/docs/auth/android/start/
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -244,6 +245,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             focusView.requestFocus();
             return false;
         } else {
+            //The following pulled in part from https://firebase.google.com/docs/auth/android/start/
             final String auth_failed = "Incorrect password";
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -266,12 +268,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         return true;
     }
 
+    //Check to make sure the email you are passing in is a UCSD email account
     private boolean isEmailValid(String email) {
         return email.contains("@ucsd.edu");
     }
 
+    //Check if password is at least 8 chars
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own length
         return password.length() > 7;
     }
 
@@ -310,7 +313,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
-//Test comment
+
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(this,
@@ -381,8 +384,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
             try {
                 // Simulate network access.
                 Thread.sleep(2000);

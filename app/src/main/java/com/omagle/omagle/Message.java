@@ -9,13 +9,20 @@ import android.util.Log;
  * Created by Michael on 10/30/16.
  */
 
+/*
+message class that stores the relevant information to send message
+ */
 public class Message {
+    //text being sent
     private String texts;
+    //sender and receiver
     private String sender;
     private String receiver;
+    //for displaying on the screen purposes
     private boolean displayed;
     private boolean sentMessage;
 
+    //blank default constructor
     public Message()
     {
         texts = "";
@@ -24,6 +31,7 @@ public class Message {
         displayed = false;
     }
 
+    //contructor that accepts message that user wants to send
     public Message(String text){
         this.texts = text;
         sender = "";
@@ -31,6 +39,8 @@ public class Message {
         displayed = false;
         sentMessage = false;
     }
+
+    //getter methods
 
     public String getText()
     {
@@ -51,6 +61,8 @@ public class Message {
     {
         return displayed;
     }
+
+    //setter methods
 
     public void setText(String t)
     {
@@ -74,5 +86,6 @@ public class Message {
 
     public void setSentMessage(boolean s) { sentMessage = s; }
 
+    //used for UI purposes
     public boolean didMessageSend() { return sentMessage; }
 }

@@ -29,8 +29,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+/*
+These are the database related resources that we used
+https://firebase.google.com/docs/database/android/start/
+https://firebase.google.com/docs/database/android/read-and-write
+https://firebase.google.com/docs/database/android/lists-of-data
+ */
 public class ChatScreen extends AppCompatActivity {
     private static final String TAG = "ChatScreen";
+    //UI related information. buttons and such
     private static ChatScreenArrayAdapter arrAdapt;
     private EditText messageText;
     private Button sendButton;
@@ -38,6 +45,7 @@ public class ChatScreen extends AppCompatActivity {
     private ListView messageList;
     private ValueEventListener messageListener;
 
+    //for customization purposes. theme and avatar
     protected static short theme = 0;
     protected static String avatar = "UCSD 1";
     private boolean firstMessage = true;
@@ -47,9 +55,11 @@ public class ChatScreen extends AppCompatActivity {
     private static final String pFound = "Chat Partner Found";
 
 
-    //database related things
+    //database
     private DatabaseReference myDatabase;
+    //user of the app
     public MyUser newUser;
+    //user's partner
     public MyUser partner;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -62,6 +72,7 @@ public class ChatScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //allows different themes for customization
         switch (theme){
             case 1:
                 setTheme(R.style.ChristmasTheme); break;
@@ -91,24 +102,23 @@ public class ChatScreen extends AppCompatActivity {
 
         myDatabase.child("users").child(newUser.getToken()).setValue(newUser);
 
-        //match new user with a partner
+        //get snapshot of the database
         ValueEventListener userListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 DataSnapshot users = dataSnapshot.child("users");
+                //match the user with someone
                 boolean success = matchUsers(users);
-                if(!success) {
-                    // print out "sorry no match message" on chat screen
-                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+                // Something went wrong. Print out a message
+                Log.w(TAG, "match users", databaseError.toException());
             }
         };
         myDatabase.addListenerForSingleValueEvent(userListener);
 
+        //send message and exit chat buttons
         sendButton = (Button) findViewById(R.id.sendButton);
         exitButton = (Button) findViewById(R.id.exitButton);
         messageList = (ListView) findViewById(R.id.message_list);
@@ -119,13 +129,13 @@ public class ChatScreen extends AppCompatActivity {
 
         messageText = (EditText) findViewById(R.id.edit_message);
 
-        //send message
+        //see if user tried to send message through enter key
         messageText.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    Log.d(TAG, "trying to send message: onKey");
+                    //store the message onto the database
                     storeMessage(messageText.getText().toString().trim());
-                    Log.d(TAG, "after store message");
+                    //display the sent message on the screen
                     sendMessage();
                     return true;
                 }
@@ -133,22 +143,23 @@ public class ChatScreen extends AppCompatActivity {
             }
         });
 
-        //send message
+        //see if user tried to send message by clicking the button
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "trying to send message: onClick");
+                //store the message on database
                 storeMessage(messageText.getText().toString().trim());
+                //display the sent message on the screen
                 sendMessage();
             }
         });
+
         //when pressing the exit chat button
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "trying to exit chat: onClick");
                 onBackPressed();
-
             }
         });
 
@@ -161,16 +172,17 @@ public class ChatScreen extends AppCompatActivity {
             }
         });
 
-        //receiver mesage
+        //get snapshot of the database
         messageListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                //receive the message from database
                 retrieveMessage(dataSnapshot);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+                // something went wrong. log the message
+                Log.w(TAG, "retreive message", databaseError.toException());
             }
         };
         DatabaseReference messageDatabase = FirebaseDatabase.getInstance().getReference();
@@ -182,22 +194,25 @@ public class ChatScreen extends AppCompatActivity {
     //match users from database
     public boolean matchUsers(DataSnapshot users)
     {
-        Log.d(TAG, "trying to match users");
+        //look through all uses
         for(DataSnapshot snap : users.getChildren())
         {
             MyUser potentialPartner = snap.getValue(MyUser.class);
             //found someone who isn't matched yet
             if(!newUser.getMatched()&&!potentialPartner.getMatched()&&!newUser.getToken().equals(potentialPartner.getToken()))
             {
+                //give partner to user
                 newUser.setPartner(potentialPartner.getToken());
                 newUser.setMatched(true);
+                //give user to partner
                 potentialPartner.setPartner(newUser.getToken());
                 potentialPartner.setMatched(true);
+                //reflect the change on the database
                 myDatabase.child("users").child(newUser.getToken()).setValue(newUser);
                 myDatabase.child("users").child(potentialPartner.getToken()).setValue(potentialPartner);
-                Log.d(TAG, "matched users");
                 storeMessage(MATCHED);
                 partner = potentialPartner;
+                //update partner's avatar on user's size
                 ImageView otherAvatar = (ImageView) findViewById(R.id.receiverAvatar);
                 changeAvatar(otherAvatar,partner.getAvatar());
                 makeToast(pFound);
@@ -209,7 +224,7 @@ public class ChatScreen extends AppCompatActivity {
 
     //store message on the database
     public void storeMessage(final String texts) {
-        Log.d(TAG, "trying storing message");
+        //get snap shot of the database
         ValueEventListener messageListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -217,37 +232,41 @@ public class ChatScreen extends AppCompatActivity {
                 for(DataSnapshot snap : users.getChildren()) {
                     MyUser potentialUpdate = snap.getValue(MyUser.class);
                     if(potentialUpdate.getToken().equals(newUser.getToken())&&potentialUpdate.getMatched()) {
+                        //create message to be sent
                         Message newEntry = new Message(texts);
                         newEntry.setReceiver(potentialUpdate.getPartner());
                         newEntry.setSender(potentialUpdate.getToken());
+                        //store the message on database
                         myDatabase.child("message").child(potentialUpdate.getPartner()).setValue(newEntry);
-                        Log.d(TAG, "Stored message");
                     }
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+                // something went wrong. log the message
+                Log.w(TAG, "send message", databaseError.toException());
             }
         };
         DatabaseReference messageDatabase = FirebaseDatabase.getInstance().getReference();
         messageDatabase.addListenerForSingleValueEvent(messageListener);
     }
 
+    //receive message from the database
     public String retrieveMessage(DataSnapshot dataSnapshot) {
+        //look through every message on database
         DataSnapshot users = dataSnapshot.child("message");
-        Log.d(TAG, "trying to receive message");
         for (DataSnapshot snap : users.getChildren()) {
-            //look through each message and see if it was sent for this user
             Message m = snap.getValue(Message.class);
             String receiver = m.getReceiver();
+            //see if the message was sent to the user
             if(receiver.equals(newUser.getToken()) && !m.getDisplayed())
             {
                 String messages = m.getText();
+                //partner exited app. user needs to exit chat too
                 if (messages != null && messages.equals(BUMPED))
                     otherUserEnded();
+                //message received. retrieve the message
                 else if(messages != null) {
                     if (messages.equals(MATCHED)&&firstMessage){
                         firstMessage = false;
@@ -257,17 +276,16 @@ public class ChatScreen extends AppCompatActivity {
                         partner.setMatched(true);
                         newUser.setPartner(partner.getToken());
                         newUser.setMatched(true);
-                        Log.d(TAG,partner.getAvatar());
                         changeAvatar(otherAvatar,partner.getAvatar());
                         myDatabase.child("message").child(newUser.getToken()).removeValue();
                         makeToast(pFound);
                         return m.getText();
                     }
+                    //display the message onto the screen
                     m.setSentMessage(false);
                     arrAdapt.add(m);
                     m.setDisplayed(true);
                     myDatabase.child("message").child(receiver).setValue(m);
-                    Log.d(TAG,"retrieved message");
                     return m.getText();
                 }
             }
@@ -277,6 +295,7 @@ public class ChatScreen extends AppCompatActivity {
 
     /* Populate UI with sent message */
     private boolean sendMessage() {
+        //create the message and display on the screen
         Message message = new Message(messageText.getText().toString().trim());
         message.setSentMessage(true);
         arrAdapt.add(message);
@@ -285,13 +304,11 @@ public class ChatScreen extends AppCompatActivity {
     }
 
     /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     * implement the App Indexing API..
      */
     public Action getIndexApiAction() {
         Thing object = new Thing.Builder()
-                .setName("ChatScreen Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
+                .setName("ChatScreen Page")
                 .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
                 .build();
         return new Action.Builder(Action.TYPE_VIEW)
@@ -304,8 +321,7 @@ public class ChatScreen extends AppCompatActivity {
     public void onStart() {
         super.onStart();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        // implement the App Indexing API.
         client.connect();
         AppIndex.AppIndexApi.start(client, getIndexApiAction());
     }
@@ -324,24 +340,20 @@ public class ChatScreen extends AppCompatActivity {
         client.disconnect();
     }
 
-
-
-
+    //need to exit the chat
     @Override
     public void onBackPressed(){
+        //make other user exit the chat
         bumpOtherUser();
+        //delete the chat
         deleteChat();
         super.onBackPressed();
         finish();
     }
 
-
-    private void goToStartChat() {
-        Intent intent = new Intent(this, StartChat.class);
-        startActivity(intent);
-    }
-
+    //user wants to exit. delete the chatscreen
     public void deleteChat() {
+        //reset everything on database
         myDatabase.child("message").child(newUser.getToken()).removeValue();
         newUser.setMatched(false);
         newUser.setPartner("Default partner");
@@ -374,6 +386,7 @@ public class ChatScreen extends AppCompatActivity {
 
     /* Update the avatar with the given choice */
     public void changeAvatar(ImageView imageView, String choice){
+        //different choises for the avatar
         switch (choice){
             case "UCSD 1":
                 imageView.setImageResource(R.drawable.default_avatar);

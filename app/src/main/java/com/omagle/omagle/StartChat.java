@@ -9,7 +9,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-
+/* The "StartChat" page. Includes a sign out and a settings button, as well as a start chat button
+*
+* */
 public class StartChat extends AppCompatActivity {
 
     private FirebaseAuth mAuth;

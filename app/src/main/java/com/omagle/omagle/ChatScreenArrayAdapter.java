@@ -40,6 +40,8 @@ public class ChatScreenArrayAdapter extends ArrayAdapter<Message> {
         return this.messageList.get(index);
     }
 
+    //When there is a new message, populates the message to the screen with the appropriate color
+    //scheme
     public View getView(int pos, View convertView, ViewGroup parent) {
         Message message = getItem(pos);
         View row = convertView;

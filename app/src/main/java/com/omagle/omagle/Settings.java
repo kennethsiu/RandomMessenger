@@ -159,7 +159,6 @@ public class Settings extends AppCompatActivity {
     }
 
     private void updateDatabaseInfo () {
-
         myDatabase.child("Profiles").child(userID).child("Theme").removeValue();
         myDatabase.child("Profiles").child(userID).child("Theme").setValue(them);
         myDatabase.child("Profiles").child(userID).child("Avatar").removeValue();

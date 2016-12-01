@@ -13,15 +13,20 @@ import com.google.firebase.auth.FirebaseUser;
 public class StartChat extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    //private FirebaseUser user;
 
+    /**
+     * @param savedInstanceState
+     *
+     * After signing in, go to the main menu screen, with the options to start a chat,
+     * go to settings, and to sign out of the account and go back to login page.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_chat);
         mAuth = FirebaseAuth.getInstance();
-        //user = mAuth.getCurrentUser();
 
+        /*Sign out button displays on button left*/
         final Button signOutButton = (Button) findViewById(R.id.signOutButton);
         signOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,6 +35,7 @@ public class StartChat extends AppCompatActivity {
             }
         });
 
+        /*Chat button displays on middle screen*/
         final Button startChatButton = (Button) findViewById(R.id.startChatButton);
         startChatButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,7 +45,7 @@ public class StartChat extends AppCompatActivity {
             }
         });
 
-        //added by MinhTuan to go to settings
+        /*Settings button appears on bottom right*/
         final Button settingsButton = (Button) findViewById(R.id.settingsButton);
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,11 +63,12 @@ public class StartChat extends AppCompatActivity {
         finish();
     }
 
+    /*Go to messaging screen*/
     private void startChat(View view){
         Intent startChatIntent = new Intent(this, ChatScreen.class);
         startActivity(startChatIntent);
     }
-    //added by MinhTuan
+    /*Go to the settings screen*/
     private void settings(View view){
         Intent settingsIntent = new Intent(this, Settings.class);
         startActivity(settingsIntent);

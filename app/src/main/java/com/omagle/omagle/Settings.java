@@ -28,7 +28,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
-/*The following is the java class assoicated with the settings page. It allows the user to
+/*The following is the java class associated with the settings page. It allows the user to
 change their theme and avatar before a chat.
  */
 public class Settings extends AppCompatActivity {
@@ -52,8 +52,6 @@ public class Settings extends AppCompatActivity {
         userID = user.getUid();
 
         final ImageView avImage = (ImageView) findViewById(R.id.avatar_image);
-
-        //Added by MinhTuan
         final Button okButton = (Button) findViewById(R.id.okButton);
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +78,6 @@ public class Settings extends AppCompatActivity {
                     case "UCSD 1":
                         ChatScreen.avatar = avatar;
                         avImage.setImageResource(R.drawable.default_avatar);
-
                         break;
                     case "UCSD 2":
                         ChatScreen.avatar = avatar;

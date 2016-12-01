@@ -1,8 +1,6 @@
 package com.omagle.omagle;
 
 /**
- * Created by Anu on 11/7/2016.
- *
  * User class. Used to pair users, send data, and receive data through firebase.
  */
 

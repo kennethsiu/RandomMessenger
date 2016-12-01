@@ -27,7 +27,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-
+/*The following class was created with the help of the firebase tutorial, found at:
+https://firebase.google.com/docs/auth/android/start/
+It allows a user to make an account with our app (through Firebase's authentication system) and later
+sign on with the password they set.
+ */
 public class SignUp extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -44,7 +48,6 @@ public class SignUp extends AppCompatActivity {
 
     final String auth_failed = "Failed to create account";
 
-    View view1;
 
 
     @Override
@@ -55,6 +58,7 @@ public class SignUp extends AppCompatActivity {
         setSupportActionBar(toolbar);
         myDatabase = FirebaseDatabase.getInstance().getReference();
 
+        //The following taken from the above tutorial
         //Track when the user is signing in or out
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -77,6 +81,10 @@ public class SignUp extends AppCompatActivity {
         passw = (EditText) findViewById(R.id.EnterPassword);
         confPass = (EditText) findViewById(R.id.ConfirmPassword);
 
+        //Pressing the sign up button calls several actions. First, we check to make sure that the
+        //Email is a UCSD email address. Then, we check if the password we have entered in two
+        //Separate boxes are the same. If those checks pass, we ask firebase to creat an account
+        //With the email and password.
         signUpButton = (Button) findViewById(R.id.beginSignUp);
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,18 +93,13 @@ public class SignUp extends AppCompatActivity {
                 String passStr = passw.getText().toString().trim();
                 String confPassStr = confPass.getText().toString().trim();
                 Boolean success = createAccount(emailStr, passStr, confPassStr, view);
+                String userID;
                 if(success) {
-                    String str = "";
-                    for (char c : emailStr.toCharArray()) {
-                        if (c == '@')
-                            break;
-                        str = str + c;
-
-                    }
-                    myDatabase.child("Profiles").child(str).child("Name").setValue("John/Jane Doe");
-                    myDatabase.child("Profiles").child(str).child("Age").setValue("21");
-                    myDatabase.child("Profiles").child(str).child("Major").setValue("Undeclared");
-                    myDatabase.child("Profiles").child(str).child("Theme").setValue("Default");
+                    mAuth.signInWithEmailAndPassword(emailStr, passStr);
+                    userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    //myDatabase.child("Profiles").child(userID);
+                    myDatabase.child("Profiles").child(userID).child("Theme").setValue("Default");
+                    myDatabase.child("Profiles").child(userID).child("Avatar").setValue("UCSD 1");
                 }
             }
         });
@@ -115,7 +118,7 @@ public class SignUp extends AppCompatActivity {
         startActivity(intent);
     }
 
-    //Go to the start chat page
+    //Go to the settings page
     private void goToSettings(View view) {
         Intent intent = new Intent(this, Settings.class);
         startActivity(intent);

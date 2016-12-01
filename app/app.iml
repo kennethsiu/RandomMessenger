@@ -76,25 +76,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/jni" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/rs" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/shaders" isTestSource="true" />
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/res" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/resources" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/assets" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/aidl" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/jni" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/rs" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/shaders" isTestSource="true" />
->>>>>>> e34ebf9431aed12b72017cdd665b1715fd7d52b6
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/assets" />
-=======
->>>>>>> 0e0f4d6ed0e1765370f581b86bb0564345b22906
-=======
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/assets" />
->>>>>>> ec83a6e3acf3b40aa2618d81822d1e126560a21d
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/blame" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/builds" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes" />
@@ -283,5 +265,6 @@
     <orderEntry type="library" exported="" name="play-services-places-9.8.0" level="project" />
     <orderEntry type="library" exported="" name="mediarouter-v7-24.0.0" level="project" />
     <orderEntry type="library" exported="" name="firebase-crash-9.8.0" level="project" />
+    <orderEntry type="library" exported="" name="android-android-25" level="project" />
   </component>
 </module>

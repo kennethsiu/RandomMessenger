@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,12 +18,25 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
+
+/*The following is the java class assoicated with the settings page. It allows the user to
+change their theme and avatar before a chat.
+ */
 public class Settings extends AppCompatActivity {
 
     private DatabaseReference myDatabase;
+    private String avt = "UCSD 1";
+    private String them = "Default";
+    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +47,110 @@ public class Settings extends AppCompatActivity {
 
         myDatabase = FirebaseDatabase.getInstance().getReference();
 
-        EditText nameText = (EditText) findViewById(R.id.nameEdit);
-        EditText majorText = (EditText) findViewById(R.id.majorEdit);
-        EditText ageText = (EditText) findViewById(R.id.ageEdit);
+        //Get the currently logged in user and their user id for updating the database
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        userID = user.getUid();
+
+        //avt = myDatabase.child("Profiles").child(userID).child("Avatar").getValue();
+        //them = myDatabase.child("Profiles").child(userID).child("Theme").getKey();
+
+//        ValueEventListener avatarListener = new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot snap) {
+//                Object o = snap.getValue(String.class);
+//                if(o == null) {
+//                    myDatabase.child("String").child(userID).child("Avatar").setValue("UCSD 1");
+//                    avt = "UCSD 1";
+//                }
+//                else {
+//                    avt = snap.getValue(String.class);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Log.w("Settings in database", "loadPost:onCancelled", databaseError.toException());
+//            }
+//
+//
+//        };
+
+ //       ValueEventListener themeListener = new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot snap) {
+//                Object o = snap.getValue(String.class);
+//                if(o == null) {
+//                    myDatabase.child("String").child(userID).child("Theme").setValue("Default");
+//                    them = "Default";
+//                }
+//                else {
+//                    them = snap.getValue(String.class);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Log.w("Settings in database", "loadPost:onCancelled", databaseError.toException());
+//            }
+//
+//
+//        };
+//
+//
+//        //Figure out which radio button needs to be checked when the settings page is opened.
+//        RadioButton toCheck = (RadioButton) findViewById(R.id.Default);
+//        switch(them) {
+//            case "Default":
+//                toCheck = (RadioButton) findViewById(R.id.Default);
+//
+//            case "Christmas":
+//                toCheck = (RadioButton) findViewById(R.id.Christmas);
+//
+//            case "Thanksgiving":
+//                toCheck = (RadioButton) findViewById(R.id.Thanksgiving);
+//
+//            case "Underwater":
+//                toCheck = (RadioButton) findViewById(R.id.Underwater);
+//
+//            case "Eye_Bleed":
+//                toCheck = (RadioButton) findViewById(R.id.Eye_Bleed);
+//        }
+//
+//        //Determine which image to display when the settings page opens.
+//        Spinner toSet = (Spinner) findViewById(R.id.avatar_spinner);
+//        int index = 0;
+//        switch(avt) {
+//            case "UCSD 1":
+//                index = 0;
+//                break;
+//            case "UCSD 2":
+//                index = 1;
+//                break;
+//            case "Warren":
+//                index = 2;
+//                break;
+//            case "Marshall":
+//                index = 3;
+//                break;
+//            case "Muir":
+//                index = 4;
+//                break;
+//            case "Revelle":
+//                index = 5;
+//                break;
+//            case "ERC":
+//                index = 6;
+//                break;
+//            case "Triton":
+//                index = 7;
+//                break;
+//            case "Sixth":
+//                index = 8;
+//                break;
+//        }
+
+//        toCheck.setChecked(true);
+//        toSet.setSelection(index);
         final ImageView avImage = (ImageView) findViewById(R.id.avatar_image);
 
         //Added by MinhTuan
@@ -65,6 +180,7 @@ public class Settings extends AppCompatActivity {
                     case "UCSD 1":
                         ChatScreen.avatar = avatar;
                         avImage.setImageResource(R.drawable.default_avatar);
+
                         break;
                     case "UCSD 2":
                         ChatScreen.avatar = avatar;
@@ -146,7 +262,11 @@ public class Settings extends AppCompatActivity {
     }
 
     private void updateDatabaseInfo () {
-        myDatabase.child("Profiles");
+
+        myDatabase.child("Profiles").child(userID).child("Theme").removeValue();
+        myDatabase.child("Profiles").child(userID).child("Theme").setValue(them);
+        myDatabase.child("Profiles").child(userID).child("Avatar").removeValue();
+        myDatabase.child("Profiles").child(userID).child("Avatar").setValue(avt);
     }
 
 }

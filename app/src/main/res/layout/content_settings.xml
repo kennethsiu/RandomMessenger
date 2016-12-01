@@ -89,113 +89,47 @@
         android:layout_alignParentStart="true"
         android:textColor="@color/common_google_signin_btn_text_dark_focused" />
 
-    <TextView
-        android:text="Name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/Name"
-        android:textSize="25sp"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:layout_toLeftOf="@+id/nameEdit"
-        android:layout_toStartOf="@+id/nameEdit"
-        android:layout_alignTop="@+id/nameEdit"
-        android:layout_above="@+id/majorEdit" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/nameEdit"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:hint="Name" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/majorEdit"
-        android:layout_below="@+id/nameEdit"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:hint="Major" />
-
-    <TextView
-        android:text="Age"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Major"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/Age"
-        android:textSize="25dp"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:layout_toStartOf="@+id/majorEdit"
-        android:layout_alignBottom="@+id/ageEdit"
-        android:layout_toLeftOf="@+id/majorEdit" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/ageEdit"
-        android:layout_below="@+id/majorEdit"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:hint="Age" />
-
-    <TextView
-        android:text="Major"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/Major"
-        android:textSize="25sp"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:layout_alignBottom="@+id/majorEdit"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/majorEdit"
-        android:layout_toStartOf="@+id/majorEdit"
-        android:layout_below="@+id/nameEdit" />
 
     <Button
         android:text="OK"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/okButton"
-        android:layout_marginTop="29dp"
-        android:layout_below="@+id/Age"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pick your avatar"
+        android:textSize="25dp"
+        android:layout_weight="1"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/textView2" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/avatar_image"
+        android:layout_toRightOf="@+id/ThemeButtons"
+        android:layout_toEndOf="@+id/ThemeButtons"
+        android:id="@+id/linearLayout">
+
+        <Spinner
+            android:id="@+id/avatar_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/avatar_image"
         android:src="@drawable/default_avatar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/ThemeButtons"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Pick_a_Theme"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pick your avatar"
-            android:layout_weight="1"/>
-        <Spinner
-            android:id="@+id/avatar_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
+        android:layout_below="@+id/textView2"
+        android:layout_toLeftOf="@+id/linearLayout"
+        android:layout_toStartOf="@+id/linearLayout" />
 </RelativeLayout>

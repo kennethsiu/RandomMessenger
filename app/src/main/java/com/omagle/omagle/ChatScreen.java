@@ -37,7 +37,7 @@ https://firebase.google.com/docs/database/android/lists-of-data
  */
 public class ChatScreen extends AppCompatActivity {
     private static final String TAG = "ChatScreen";
-    //UI related information. buttons and such
+    //UI related information.
     private static ChatScreenArrayAdapter arrAdapt;
     private EditText messageText;
     private Button sendButton;

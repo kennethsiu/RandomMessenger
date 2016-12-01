@@ -5,13 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import android.util.Log;
 
-/**
- * Created by Michael on 10/30/16.
- */
 
-/*
-message class that stores the relevant information to send message
- */
+/**
+ *message class that stores the relevant information to send message
+ **/
 public class Message {
     //text being sent
     private String texts;

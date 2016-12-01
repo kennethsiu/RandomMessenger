@@ -397,7 +397,6 @@ public class ChatScreen extends AppCompatActivity {
                 imageView.setImageResource(R.drawable.erc_avatar);
                 break;
             case "Triton":
-                Log.d(TAG,"did it switch correctly");
                 imageView.setImageResource(R.drawable.triton_avatar);
                 break;
             case "Sixth":

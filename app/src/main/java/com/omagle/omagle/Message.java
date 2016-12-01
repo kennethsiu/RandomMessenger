@@ -6,9 +6,9 @@ import java.util.List;
 import android.util.Log;
 
 
-/**
- *message class that stores the relevant information to send message
- **/
+/*Message class that stores the relevant information to send message
+* A message object is what gets written to the firbase database for a user to view.
+*/
 public class Message {
     //text being sent
     private String texts;

@@ -21,7 +21,10 @@ import android.util.Log;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
-
+/*The following was created with the help of the Firebase tutorial at
+https://firebase.google.com/docs/cloud-messaging/android/client
+* Allows for tokens to be used for messaging.
+*/
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
     private static final String TAG = "MyFirebaseIIDService";

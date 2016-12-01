@@ -29,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 /*The following class was created with the help of the firebase tutorial, found at:
 https://firebase.google.com/docs/auth/android/start/
+and evolved over time.
 It allows a user to make an account with our app (through Firebase's authentication system) and later
 sign on with the password they set.
  */
@@ -44,11 +45,10 @@ public class SignUp extends AppCompatActivity {
     private EditText passw;
     private EditText confPass;
 
+    //Regular expression for verifying email address is UCSD address
     private String emailRegex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@ucsd.edu";
 
     final String auth_failed = "Failed to create account";
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,7 +161,6 @@ public class SignUp extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-
                             /*If sign in fails, display a message to the user. If sign in succeeds
                              the auth state listener will be notified and logic to handle the
                              signed in user can be handled in the listener.*/

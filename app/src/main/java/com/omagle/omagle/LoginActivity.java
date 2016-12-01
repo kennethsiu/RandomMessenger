@@ -47,13 +47,13 @@ import android.widget.Toast;
 /**
  * A login screen that offers login via email/password.
  * Used firebase example as a template
+ * Initially taken from Android Studio API and evolved over time
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
     //Stuff for logging users in on login screen
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private final String TAG = "Sign_in_activity";
-    //private boolean success = true;
     /**
      * Id to identity READ_CONTACTS permission request.i
      */
@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
 
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-        //displaying toket on logcat
+        //displaying token on logcat
         Log.d("Look here", "Refreshed token: " + refreshedToken);
         Log.w("here", "Refreshed token: " + refreshedToken);
         Log.v("here", "Refreshed token: " + refreshedToken);
@@ -107,6 +107,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+        //The sign in button, grabs email and password text, then attempts login
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -148,11 +149,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         };
     }
+
+    //Go to start chat with a successful login
     private void goToStartChat(View view) {
         Intent intent = new Intent(this, StartChat.class);
         startActivity(intent);
     }
 
+    //Go to sign up page when the sign up button is pressed
     private void goToSignUp(View view) {
         Intent intent = new Intent(this, SignUp.class);
         startActivity(intent);

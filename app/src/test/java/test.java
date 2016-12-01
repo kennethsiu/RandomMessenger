@@ -13,37 +13,16 @@ import com.omagle.omagle.ChatScreen;
 import com.omagle.omagle.Message;
 import com.omagle.omagle.MyUser;
 
-
+//test class that uses unit tests to test the methods
 public class test {
     private DatabaseReference myDatabase;
     private static final String TAG = "JUnit tests";
     private ChatScreen sc = new ChatScreen();
     private int testCount = 0;
 
-    //check that if user is matched, then the partner token is set properly
-    public void matchUsersTest() throws Exception {
-        ValueEventListener userListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                DataSnapshot users = dataSnapshot.child("users");
-                sc.matchUsers(users);
-                for (DataSnapshot snap : users.getChildren()) {
-                    MyUser potentialPartner = snap.getValue(MyUser.class);
-                    if (!potentialPartner.getMatched())
-                        assertEquals(potentialPartner.getPartner(), "Default partner");
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w(TAG, "Match Partner Test failed", databaseError.toException());
-            }
-        };
-        myDatabase.addListenerForSingleValueEvent(userListener);
-    }
-
     //send messages and check if it was stored properly on the database
     public void storeMessageTest() throws Exception {
+        //sending out 5 messages
         while (testCount < 5) {
             if (testCount == 0)
                 sc.storeMessage("Store this message to test");
@@ -55,10 +34,12 @@ public class test {
                 sc.storeMessage("!@#$%");
             else if (testCount == 4)
                 sc.storeMessage("   spaces  ");
+            //get snapshot of the database
             ValueEventListener messageListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Message m = dataSnapshot.child("message").child(sc.newUser.getPartner()).getValue(Message.class);
+                    //check if the messages were stored properly
                     if (testCount == 0 && m != null)
                         assertEquals(m.getText(), "Store this message to test");
                     else if (testCount == 1 && m != null)
@@ -82,10 +63,39 @@ public class test {
         }
     }
 
+    /*check that if user is matched, then the partner token is set properly
+/make sure that the information is properly stored in the database
+*/
+    public void matchUsersTest() throws Exception {
+        //get snapshot of database
+        ValueEventListener userListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                DataSnapshot users = dataSnapshot.child("users");
+                //match user
+                sc.matchUsers(users);
+                for (DataSnapshot snap : users.getChildren()) {
+                    MyUser potentialPartner = snap.getValue(MyUser.class);
+                    //partner needs to be default partner if not matched properly
+                    if (!potentialPartner.getMatched())
+                        assertEquals(potentialPartner.getPartner(), "Default partner");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w(TAG, "Match Partner Test failed", databaseError.toException());
+            }
+        };
+        myDatabase.addListenerForSingleValueEvent(userListener);
+    }
+
     //check if messages were received/retrieved properly from the database
     public void retrieveMessageTest() throws Exception {
         testCount = 0;
+        //testing 5 cases
         while(testCount < 5) {
+            //send 5 different messages
             if(testCount == 0)
                 sc.storeMessage("testing first retrieve message");
             else if(testCount == 1)
@@ -96,10 +106,12 @@ public class test {
                 sc.storeMessage("  how about this one?  ");
             else if (testCount == 4)
                 sc.storeMessage("special chars !@#");
+            //get snapshot of the database
             ValueEventListener messageListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     String retrievedM = sc.retrieveMessage(dataSnapshot);
+                    //see if the 5 messages that were sent were received properly
                     if(testCount == 0)
                         assertEquals(retrievedM, "testing first retrieve message");
                     else if(testCount == 1)

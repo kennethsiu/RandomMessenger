@@ -12,6 +12,7 @@ public class MyUser {
     String partner; //partner's token
     String avatar; //User's avatar of choice
 
+    //default constructor
     public MyUser()
     {
         token ="";
@@ -20,6 +21,7 @@ public class MyUser {
         avatar = "UCSD 1";
     }
 
+    //constructor based on unique identifier
     public MyUser(String t)
     {
         token = t;
@@ -28,6 +30,7 @@ public class MyUser {
         avatar = "UCSD 1";
     }
 
+    //getter methods
     public String getToken()
     {
         return token;
@@ -45,10 +48,7 @@ public class MyUser {
 
     public String getAvatar() { return avatar; }
 
-    public void setToken(String t)
-    {
-        token = t;
-    }
+    //setter methods
 
     public void setMatched(boolean m)
     {

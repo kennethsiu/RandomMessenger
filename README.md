@@ -24,7 +24,7 @@ Ability to choose user themes and avatars, including background color and user p
 Ability to temporarily ban users who have been reported for harassment
 
 <h2> Design </h2>
-This application is designed on Android Studio. [add language(s) used]
+This application is designed using Java on Android Studio.
 
 <h2> Implementation </h2>
 The project consisted of several steps.

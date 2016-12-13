@@ -29,10 +29,10 @@ This application is designed on Android Studio. [add language(s) used]
 <h2> Implementation </h2>
 The project consisted of several steps.
 <ul>
-  <li> 1) Set up the login activity for the application. Upon inputting a valid username and password, the user will be sent to the Start Chat activity. </li>
-  <li> 2) Set up the start chat activity for the application. This page only holds the "Start Chat" button which allows the user to actually start a conversation. </li>
-  <li> 3) Set up the messaging activity for the application. We created our own messaging parser but we are using Firebase as a database to store the messages. </li>
-  <li> 4) Add some functionality to allow the user to select themes and avatars. </li>
+  <li> Set up the login activity for the application. Upon inputting a valid username and password, the user will be sent to the Start Chat activity. </li>
+  <li> Set up the start chat activity for the application. This page only holds the "Start Chat" button which allows the user to actually start a conversation. </li>
+  <li> Set up the messaging activity for the application. We created our own messaging parser but we are using Firebase as a database to store the messages. </li>
+  <li> Add some functionality to allow the user to select themes and avatars. </li>
 </ul>
 
 <h2> Possible Bugs & Future Updates </h2>

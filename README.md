@@ -18,6 +18,8 @@ RandomMessenger is an Android mobile application to connect to another user rand
 Ability to send/receive messages, start/end chat, and find/reroll a chat partner
 <h4> Login </h4>
 Ability to accept username/password, username/password verification, profile setup (contact info), and chat filters
+<h4> Themes </h4>
+Ability to choose user themes and avatars, including background color and user profile picture
 <h4> Report System </h4>
 Ability to temporarily ban users who have been reported for harassment
 
@@ -27,9 +29,10 @@ This application is designed on Android Studio. [add language(s) used]
 <h2> Implementation </h2>
 The project consisted of several steps.
 <ul>
-  <li> First, we set up the login activity for the application. Upon inputting a valid username and password, the user will be sent to the Start Chat activity. </li>
-  <li> Second, we set up the start chat activity for the application. This page only holds the "Start Chat" button which allows the user to actually start a conversation. </li>
-  <li> Third, we set up the messaging activity for the application. For the actual messaging, we are using Firebase's API. </li>
+  <li> 1) Set up the login activity for the application. Upon inputting a valid username and password, the user will be sent to the Start Chat activity. </li>
+  <li> 2) Set up the start chat activity for the application. This page only holds the "Start Chat" button which allows the user to actually start a conversation. </li>
+  <li> 3) Set up the messaging activity for the application. We created our own messaging parser but we are using Firebase as a database to store the messages. </li>
+  <li> 4) Add some functionality to allow the user to select themes and avatars. </li>
 </ul>
 
 <h2> Possible Bugs & Future Updates </h2>
